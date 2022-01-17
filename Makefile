@@ -7,3 +7,5 @@ cluster:
 ## install ray
 ray-kube-install:
 	helm -n ray upgrade --install example-cluster --create-namespace deploy/charts/ray
+
+include *.mk
