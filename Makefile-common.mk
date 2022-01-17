@@ -25,7 +25,7 @@ clean:
 	rm -rf $(venv)
 
 ## create venv and install this package and hooks
-install: $(venv) node_modules $(if $(value CI),,install-hooks)
+install: $(venv)
 
 ## format all code
 format: $(venv)
