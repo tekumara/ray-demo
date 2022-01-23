@@ -1,7 +1,7 @@
 import time
 import ray
 
-ray.init(address='auto')
+ray.init(f"ray://127.0.0.1:10001")
 
 @ray.remote
 def f():

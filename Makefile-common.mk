@@ -17,7 +17,7 @@ $(pip):
 	$(pip) install pip~=21.3
 
 $(venv): setup.py $(pip)
-	$(pip) install -e '.[dev]'
+	$(pip) install -e .
 	touch $(venv)
 
 # delete the venv
