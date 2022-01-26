@@ -5,34 +5,8 @@ metadata:
   labels:
     component: ray
 spec:
-  rules:
-    - host: client.vcap.me
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: {{ .Release.Name }}-ray-head
-                port:
-                  number: 10001
-    - host: dashboard.vcap.me
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: {{ .Release.Name }}-ray-head
-                port:
-                  number: 8265
-    - host: ray-serve.vcap.me
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: {{ .Release.Name }}-ray-head
-                port:
-                  number: 8000
+  defaultBackend:
+    service:
+      name: {{ .Release.Name }}-ray-head
+      port:
+        number: 10001

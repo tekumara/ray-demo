@@ -50,10 +50,4 @@ Each pod needs requests 1 CPU, for a total of 4 CPU (ie: operator + head + 2 wor
 
 ## Ingress
 
-```
-# forward dashboard to http://localhost:8265
-kubectl -n ray port-forward service/example-cluster-ray-head 8265:8265
-
-# forward server to http://localhost:10001
-kubectl -n ray port-forward service/example-cluster-ray-head 10001:10001
-```
+The Ray client server will be exposed on localhost port 10001.
