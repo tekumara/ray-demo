@@ -1,6 +1,6 @@
-# ray example
+# ray demo
 
-Prefect multi-module flow running on Kubernetes.
+Ray cluster with examples running on Kubernetes (k3d).
 
 ## Getting started
 
@@ -9,14 +9,15 @@ Prerequisites:
 - docker compose
 - [k3d](https://github.com/rancher/k3d) to create a k3s kubes cluster
 - python 3
+- [grpcurl](https://github.com/fullstorydev/grpcurl) for network debugging (optional)
 
-Install virtualenv:
+Create virtualenv:
 
 ```
-pip install -r requirements.txt
+make install
 ```
 
-Create the kubes cluster:
+Create the k3s kubes cluster using k3d:
 
 ```
 make cluster
@@ -40,13 +41,13 @@ The [ray helm chart](deploy/charts/ray) deploys the [ray operator](https://githu
 
 The ray operator creates:
 
-- a head node running gcs_server, redis-server, raylet
-- 2 worker nodes running raylet
+- a head pod running gcs_server, redis-server, raylet
+- 2 worker pods running raylet
 - a ClusterIP Service
 
 The [rayproject/ray](https://hub.docker.com/r/rayproject/ray) image is used by the ray operator, head and worker nodes. It is 2.5GB (!). It is built on python 3.7. Alternate images can be specified in [values.yaml](deploy/charts/ray/values.yaml), eg: [nightly-py39-cpu](https://hub.docker.com/r/rayproject/ray/tags?page=1&name=nightly)
 
-Each pod needs requests 1 CPU, for a total of 4 CPU (ie: operator + head + 2 workers).
+Each pod needs 1 CPU, for a total of 4 CPU (ie: operator + head + 2 workers).
 
 ## Ingress
 

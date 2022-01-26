@@ -13,5 +13,8 @@ ray-kube-install:
 	@echo waiting for service example-cluster-ray-head ... && while : ; do kubectl -n ray get service example-cluster-ray-head > /dev/null && break; sleep 2; done
 	@kubectl -n ray patch service example-cluster-ray-head --type json -p '[{"op": "add", "path": "/metadata/annotations", "value": {"traefik.ingress.kubernetes.io/service.serversscheme": "h2c"}}]'
 
+## ping server endpoint
+ping:
+	grpcurl -import-path ./protobuf/ -proto ray_client.proto -plaintext  -d '{ "type": "PING" }' localhost:10001 ray.rpc.RayletDriver/ClusterInfo
 
 include *.mk
