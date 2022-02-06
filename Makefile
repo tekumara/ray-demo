@@ -6,12 +6,23 @@ cluster:
 	@echo -e "\nTo use your cluster set:\n"
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
-## install ray
+## install ray using the stock ray operator
+ray-kube-install: service=example-cluster-ray-head
 ray-kube-install:
 	helm -n ray upgrade --install example-cluster --create-namespace deploy/charts/ray --wait
 # patch service so traefik uses h2c to talk to the ray backend
-	@echo waiting for service example-cluster-ray-head ... && while : ; do kubectl -n ray get service example-cluster-ray-head > /dev/null && break; sleep 2; done
-	@kubectl -n ray patch service example-cluster-ray-head --type json -p '[{"op": "add", "path": "/metadata/annotations", "value": {"traefik.ingress.kubernetes.io/service.serversscheme": "h2c"}}]'
+	@echo waiting for service $(service) ... && while : ; do kubectl -n ray get service $(service) > /dev/null && break; sleep 2; done
+	@kubectl -n ray patch service $(service) --type json -p '[{"op": "add", "path": "/metadata/annotations", "value": {"traefik.ingress.kubernetes.io/service.serversscheme": "h2c"}}]'
+
+## install ray using kuberay
+kuberay: service=example-cluster-ray-head-svc
+kuberay:
+	kubectl apply -k ray-operator/config/crd
+	helm upgrade --install kuberay-operator helm-chart/kuberay-operator --values helm-chart/kuberay-operator/values.yaml --namespace kuberay-operator --create-namespace
+	helm upgrade --install example-cluster helm-chart/ray-cluster --values helm-chart/ray-cluster/values.yaml --namespace ray --create-namespace
+# patch service so traefik uses h2c to talk to the ray backend
+	@echo waiting for service $(service) ... && while : ; do kubectl -n ray get service $(service) > /dev/null && break; sleep 2; done
+	@kubectl -n ray patch service $(service) --type json -p '[{"op": "add", "path": "/metadata/annotations", "value": {"traefik.ingress.kubernetes.io/service.serversscheme": "h2c"}}]'
 
 ## ping server endpoint
 ping:
