@@ -7,6 +7,6 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: {{ .Release.Name }}-ray-head
+      name: {{ .Values.serviceName }}
       port:
         number: 10001

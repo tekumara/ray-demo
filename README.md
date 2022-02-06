@@ -23,10 +23,24 @@ Create the k3s kubes cluster using k3d:
 make cluster
 ```
 
-Install the ray cluster into kubes (set your kube context before running this):
+Now set your kube context before running further commands.
+
+
+Install the ray cluster into kubes
+
+* stock python operator: `make ray-kube-install`
+* kuberay operatoer: `make kuberay`
+
+Ping head node (once pod is ready):
 
 ```
-make ray-kube-install
+make ping
+```
+
+Run example application
+
+```
+python rayexample/cluster_info.py
 ```
 
 Run shell on head pod:
