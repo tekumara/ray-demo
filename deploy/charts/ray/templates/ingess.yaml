@@ -4,9 +4,30 @@ metadata:
   name: ray-head
   labels:
     component: ray
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: ray-stripprefix-dashboard@kubernetescrd
 spec:
   defaultBackend:
     service:
       name: {{ .Release.Name }}-ray-head
       port:
         number: 10001
+  rules:
+    - http:
+        paths:
+          - path: /dashboard
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}-ray-head
+                port:
+                  number: 8265
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix-dashboard
+spec:
+  stripPrefix:
+    prefixes:
+      - /dashboard
