@@ -41,6 +41,7 @@ tlogs:
 
 ## forward traefik dashboard
 tdashboard:
+	@echo Forwarding traefik dashboard to http://localhost:9000/dashboard/
 	tpod=$$(kubectl get pod -n kube-system -l app.kubernetes.io/name=traefik -o custom-columns=:metadata.name --no-headers=true) && \
 		kubectl -n kube-system port-forward $$tpod 9000:9000
 
