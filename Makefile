@@ -17,4 +17,17 @@ ray-kube-install:
 ping:
 	grpcurl -import-path ./protobuf/ -proto ray_client.proto -plaintext  -d '{ "type": "PING" }' localhost:10001 ray.rpc.RayletDriver/ClusterInfo
 
+## enable trafefik debug loglevel
+tdebug:
+	kubectl -n kube-system patch deployment traefik --type json -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/0", "value":"--log.level=DEBUG"}]'
+
+## tail traefik logs
+tlogs:
+	kubectl -n kube-system logs -l app.kubernetes.io/name=traefik -f
+
+## forward traefik dashboard
+tdashboard:
+	tpod=$$(kubectl get pod -n kube-system -l app.kubernetes.io/name=traefik -o custom-columns=:metadata.name --no-headers=true) && \
+		kubectl -n kube-system port-forward $$tpod 9000:9000
+
 include *.mk
