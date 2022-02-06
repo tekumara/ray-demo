@@ -66,3 +66,4 @@ Each pod needs 1 CPU, for a total of 4 CPU (ie: operator + head + 2 workers).
 ## Ingress
 
 The Ray client server will be exposed on localhost port 10001.
+The Ray dashboard can be accessed on [http://localhost:10001/dashboard/](http://localhost:10001/dashboard/)

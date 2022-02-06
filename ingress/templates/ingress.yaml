@@ -8,11 +8,31 @@ spec:
   entryPoints:
     - web
   routes:
-  - kind: Rule
-    match: PathPrefix(`/`)
-    services:
-    - kind: Service
-      name: {{ .Values.serviceName }}
-      namespace: ray
-      port: 10001
-      scheme: h2c
+    - kind: Rule
+      match: PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: {{ .Values.serviceName }}
+          namespace: ray
+          port: 10001
+          scheme: h2c
+    - kind: Rule
+      match: PathPrefix(`/dashboard`)
+      middlewares:
+        - name: stripprefix-dashboard
+      services:
+        - kind: Service
+          name: {{ .Values.serviceName }}
+          namespace: ray
+          port: 8265
+          scheme: http
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix-dashboard
+spec:
+  stripPrefix:
+    prefixes:
+      - /dashboard
