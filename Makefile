@@ -11,10 +11,6 @@ ray-kube-install: service = example-cluster-ray-head
 ray-kube-install:
 	helm -n ray upgrade --install example-cluster deploy/charts/ray --create-namespace --wait
 	helm -n ray upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
-# patch service so traefik uses h2c to talk to the ray backend
-	@echo waiting for service $(service) ... && while : ; do kubectl -n ray get service $(service) > /dev/null && break; sleep 2; done
-	@kubectl -n ray patch service $(service) --type json -p '[{"op": "add", "path": "/metadata/annotations", "value": {"traefik.ingress.kubernetes.io/service.serversscheme": "h2c"}}]'
-
 
 ## install ray using kuberay
 kuberay: service = example-cluster-ray-head-svc
@@ -23,9 +19,6 @@ kuberay:
 	helm -n kuberay-operator upgrade --install kuberay-operator helm-chart/kuberay-operator --create-namespace --wait
 	helm -n ray upgrade --install example-cluster helm-chart/ray-cluster --create-namespace --wait
 	helm -n ray upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
-# patch service so traefik uses h2c to talk to the ray backend
-	@echo waiting for service $(service) ... && while : ; do kubectl -n ray get service $(service) > /dev/null && break; sleep 2; done
-	@kubectl -n ray patch service $(service) --type json -p '[{"op": "add", "path": "/metadata/annotations", "value": {"traefik.ingress.kubernetes.io/service.serversscheme": "h2c"}}]'
 
 ## ping server endpoint
 ping:

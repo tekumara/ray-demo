@@ -1,12 +1,18 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: ray-head
   labels:
     component: ray
 spec:
-  defaultBackend:
-    service:
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: PathPrefix(`/`)
+    services:
+    - kind: Service
       name: {{ .Values.serviceName }}
-      port:
-        number: 10001
+      namespace: ray
+      port: 10001
+      scheme: h2c
