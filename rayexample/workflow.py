@@ -23,12 +23,11 @@ data = read_data.step(10)
 preprocessed_data = preprocessing.step(data)
 output = aggregate.step(preprocessed_data)
 
-print(workflow.list_all())
-
 # Execute the workflow and print the result.
 print(output.run())
 
 # The workflow can also be executed asynchronously.
 # print(ray.get(output.run_async()))
 
+# List all workflows run in the cluster and their state
 print(workflow.list_all())

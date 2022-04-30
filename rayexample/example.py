@@ -1,7 +1,7 @@
 import ray
 import time
 
-ray.init(f"ray://127.0.0.1:10001")
+ray.init("ray://127.0.0.1:10001")
 
 # By adding the `@ray.remote` decorator, a regular Python function
 # becomes a Ray remote function.

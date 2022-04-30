@@ -17,14 +17,14 @@ workflow.init()
 simple.step().run_async(workflow_id)
 
 # make sure workflow step starts running
-# while not os.path.exists(flagfile):
-#     time.sleep(1)
+while not os.path.exists(flagfile):
+    time.sleep(1)
 
 workflow_metadata = workflow.get_metadata(workflow_id)
 print(workflow_metadata)
 assert workflow_metadata["status"] == "RUNNING"
 assert "start_time" in workflow_metadata["stats"]
-#assert "end_time" not in workflow_metadata["stats"]
+assert "end_time" not in workflow_metadata["stats"]
 
 workflow.cancel(workflow_id)
 
