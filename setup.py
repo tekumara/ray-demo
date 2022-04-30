@@ -9,5 +9,5 @@ setup(
     package_data={
         "": ["py.typed"],
     },
-    install_requires=["ray[data]", "tqdm"],
+    install_requires=["ray[data]==1.12.0", "tqdm"],
 )
