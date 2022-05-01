@@ -9,6 +9,7 @@ print(pipe)
 # -> DatasetPipeline(num_windows=20, num_stages=1)
 
 # Applying transforms to pipelines adds more pipeline stages.
+# map_batches are applied in parallel
 pipe = pipe.map_batches(lambda batch: [v * 2 for v in batch])
 print(pipe)
 
