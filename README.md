@@ -2,13 +2,10 @@
 
 Ray cluster with examples running on Kubernetes (k3d).
 
-## Getting started
+## Prerequisites
 
-Prerequisites:
-
-- docker compose
-- [k3d](https://github.com/rancher/k3d) to create a k3s kubes cluster
 - python 3
+- [k3d](https://github.com/rancher/k3d) to create a k3s kubes cluster (optional)
 - [grpcurl](https://github.com/fullstorydev/grpcurl) for network debugging (optional)
 
 Create virtualenv:
@@ -17,7 +14,7 @@ Create virtualenv:
 make install
 ```
 
-Create the k3s kubes cluster using k3d:
+If needed, create a k3s kubes cluster using k3d (optional):
 
 ```
 make cluster
@@ -25,10 +22,26 @@ make cluster
 
 Now set your kube context before running further commands.
 
-Install the ray cluster into kubes
+## Getting started
 
-- kuberay operator: `make operator raycluster` (recommended)
-- stock python operator: `make ray-kube-install`
+Install the ray cluster into kubes:
+
+- [kuberay](#kuberay) operator: `make operator raycluster` (recommended)
+- [stock](#ray-on-kubes-stock-python-operator) python operator: `make ray-kube-install`
+
+## Ingress
+
+For k3d, run `make k3d-ingress`:
+
+- The Ray client server will be exposed on localhost port 10001.
+- The Ray dashboard can be accessed on [http://localhost:10001/dashboard/](http://localhost:10001/dashboard/)
+
+Else, run `make forward`:
+
+- The Ray client server will be exposed on localhost port 10001.
+- The Ray dashboard can be accessed on [http://localhost:8265/](http://localhost:8265)
+
+## Usage
 
 Ping head node (once pod is ready):
 
@@ -77,13 +90,13 @@ The following has been copied from the [e80e203 tree](https://github.com/ray-pro
 
 `make delete` removes the ray cluster
 
-For more info the [ray-operator readme](https://github.com/ray-project/kuberay/tree/master/ray-operator).
+For more info see the [ray-operator readme](https://github.com/ray-project/kuberay/tree/master/ray-operator).
 
 ## Ray on Kubes (stock python operator)
 
 The [ray helm chart](deploy/charts/ray) deploys the ray CRDs and the [ray operator](https://github.com/ray-project/ray/tree/ray-1.12.1/python/ray/ray_operator) (python) to the default namespace.
 
-The ray operator creates:
+Run `make ray-kube-install`. The ray operator creates:
 
 - the ray namespace
 - a head pod running gcs_server, redis-server, raylet
@@ -112,8 +125,3 @@ The helm chart has been taken from the [1.12.1 tree](https://github.com/ray-proj
 - bumped the memory from 512Mi to 1Gi
 
 Each pod needs 1 CPU and 1GB RAM, for a total of 4 CPU (ie: operator + head + 2 workers) and 4GB RAM.
-
-## Ingress
-
-The Ray client server will be exposed on localhost port 10001.
-The Ray dashboard can be accessed on [http://localhost:10001/dashboard/](http://localhost:10001/dashboard/)

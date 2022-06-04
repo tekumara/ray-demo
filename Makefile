@@ -18,17 +18,22 @@ operator:
 
 ## create ray cluster
 cluster = mini
-raycluster: service = raycluster-$(cluster)-head-svc
+service = raycluster-$(cluster)-head-svc
 raycluster:
 # create cluster
 	kubectl apply -f ray-operator/config/samples/ray-cluster.$(cluster).yaml
-# install ingress
+
+## install k3d ingress
+k3d-ingress:
 	helm upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
 
 ## get shell on head pod
-shell: service = raycluster-$(cluster)-head-svc
 shell:
 	kubectl exec -i -t service/$(service) -- /bin/bash
+
+## port forward the service
+forward:
+	kubectl port-forward svc/$(service) 10001:10001 8265:8265
 
 ## remove cluster
 delete:
