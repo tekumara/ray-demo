@@ -10,6 +10,9 @@ image:
 nameOverride: "ray"
 fullnameOverride: ""
 
+imagePullSecrets: []
+  # - name: an-existing-secret
+
 head:
   groupName: headgroup
   replicas: 1
@@ -18,7 +21,7 @@ head:
     key: value
   initArgs:
     port: '6379'
-    redis-password: 'LetMeInRay'
+    redis-password: 'LetMeInRay' # Deprecated since Ray 1.11 due to GCS bootstrapping enabled
     dashboard-host: '0.0.0.0'
     num-cpus: '1' # can be auto-completed from the limits
     node-ip-address: $MY_POD_IP # auto-completed as the head pod IP
@@ -28,12 +31,18 @@ head:
       valueFrom:
         fieldRef:
           fieldPath: status.podIP
+  envFrom: []
+    # - secretRef:
+    #     name: my-env-secret
   resources:
     limits:
       cpu: 1
     requests:
        cpu: 200m
   annotations: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
   volumes:
     - name: log-volume
       emptyDir: { }
@@ -68,6 +77,9 @@ worker:
       valueFrom:
         fieldRef:
           fieldPath: metadata.name
+  envFrom: []
+    # - secretRef:
+    #     name: my-env-secret
   ports:
     - containerPort: 80
       protocol: TCP

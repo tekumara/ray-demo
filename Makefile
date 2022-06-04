@@ -12,13 +12,22 @@ ray-kube-install:
 	helm -n ray upgrade --install example-cluster deploy/charts/ray --create-namespace --wait
 	helm -n ray upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
 
-## install ray using kuberay
-kuberay: service = example-cluster-ray-head-svc
-kuberay:
-	kubectl apply -k ray-operator/config/crd
-	helm -n kuberay-operator upgrade --install kuberay-operator helm-chart/kuberay-operator --create-namespace --wait
-	helm -n ray upgrade --install example-cluster helm-chart/ray-cluster --create-namespace --wait
+## install kuberay operator using kustomize
+operator:
+	kubectl create -k ray-operator/config/default
+
+## create ray cluster
+cluster = mini
+raycluster: service = raycluster-$(cluster)-head-svc
+raycluster:
+# create cluster
+	kubectl create -f ray-operator/config/samples/ray-cluster.$(cluster).yaml
+# install ingress
 	helm -n ray upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
+
+## remove cluster
+delete:
+	kubectl delete raycluster raycluster-$(cluster)
 
 ## ping server endpoint
 ping:

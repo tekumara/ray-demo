@@ -14,6 +14,7 @@ spec:
     replicas: {{ .Values.head.replicas }}
     template:
       spec:
+        imagePullSecrets: {{- toYaml .Values.imagePullSecrets | nindent 10 }}
         containers:
           - volumeMounts: {{- toYaml .Values.head.volumeMounts | nindent 12 }}
             name: ray-head
@@ -24,8 +25,13 @@ spec:
               - name: TYPE
                 value: head
             {{- toYaml .Values.head.containerEnv | nindent 14}}
+            {{- with .Values.head.envFrom }}
+            envFrom: {{- toYaml . | nindent 14}}
+            {{- end }}
         volumes: {{- toYaml .Values.head.volumes | nindent 10 }}
         affinity: {{- toYaml .Values.head.affinity | nindent 10 }}
+        tolerations: {{- toYaml .Values.head.tolerations | nindent 10 }}
+        nodeSelector: {{- toYaml .Values.head.nodeSelector | nindent 10 }}
       metadata:
         annotations: {{- toYaml .Values.head.annotations | nindent 10 }}
         labels:
@@ -45,6 +51,7 @@ spec:
     groupName: {{ .Values.worker.groupName }}
     template:
       spec:
+        imagePullSecrets: {{- toYaml .Values.imagePullSecrets | nindent 10 }}
         initContainers:
           - name: init-myservice
             image: busybox:1.28
@@ -59,9 +66,14 @@ spec:
               - name: TYPE
                 value: worker
             {{- toYaml .Values.worker.containerEnv | nindent 14}}
+            {{- with .Values.worker.envFrom }}
+            envFrom: {{- toYaml . | nindent 14}}
+            {{- end }}
             ports: {{- toYaml .Values.worker.ports | nindent 14}}
         volumes: {{- toYaml .Values.worker.volumes | nindent 10 }}
         affinity: {{- toYaml .Values.worker.affinity | nindent 10 }}
+        tolerations: {{- toYaml .Values.worker.tolerations | nindent 10 }}
+        nodeSelector: {{- toYaml .Values.worker.nodeSelector | nindent 10 }}
       metadata:
         annotations: {{- toYaml .Values.worker.annotations | nindent 10 }}
         labels:

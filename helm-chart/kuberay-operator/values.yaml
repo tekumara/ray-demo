@@ -1,4 +1,4 @@
-# Default values for kubray-operator.
+# Default values for kuberay-operator.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -9,8 +9,8 @@ image:
   tag: nightly
   pullPolicy: IfNotPresent
 
-nameOverride: "kubray-operator"
-fullnameOverride: "kubray-operator"
+nameOverride: "kuberay-operator"
+fullnameOverride: "kuberay-operator"
 
 ## Install Default RBAC roles and bindings
 rbac:
@@ -22,7 +22,7 @@ serviceAccount:
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "ray-operator"
+  name: "kuberay-operator"
 
 service:
   type: ClusterIP
@@ -42,6 +42,16 @@ resources:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+livenessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  failureThreshold: 5
+
+readinessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  failureThreshold: 5
 
 createCustomResource: true
 rbacEnable: true
