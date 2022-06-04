@@ -45,7 +45,7 @@ python rayexample/cluster_info.py
 Run shell on head pod:
 
 ```
-kubectl exec -i -t -n ray service/example-cluster-ray-head -- /bin/bash
+make shell
 ```
 
 ## Kuberay

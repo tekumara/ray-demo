@@ -13,7 +13,6 @@ spec:
       services:
         - kind: Service
           name: {{ .Values.serviceName }}
-          namespace: ray
           port: 10001
           scheme: h2c
     - kind: Rule
@@ -23,7 +22,6 @@ spec:
       services:
         - kind: Service
           name: {{ .Values.serviceName }}
-          namespace: ray
           port: 8265
           scheme: http
 

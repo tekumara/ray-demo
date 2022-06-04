@@ -21,9 +21,14 @@ cluster = mini
 raycluster: service = raycluster-$(cluster)-head-svc
 raycluster:
 # create cluster
-	kubectl create -f ray-operator/config/samples/ray-cluster.$(cluster).yaml
+	kubectl apply -f ray-operator/config/samples/ray-cluster.$(cluster).yaml
 # install ingress
-	helm -n ray upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
+	helm upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
+
+## get shell on head pod
+shell: service = raycluster-$(cluster)-head-svc
+shell:
+	kubectl exec -i -t service/$(service) -- /bin/bash
 
 ## remove cluster
 delete:
