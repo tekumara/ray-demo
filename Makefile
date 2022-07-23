@@ -12,15 +12,15 @@ ray-kube-install:
 	helm -n ray upgrade --install example-cluster deploy/charts/ray --create-namespace --wait
 	helm -n ray upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
 
-## install kuberay operator using kustomize
-operator:
-	kubectl create -k ray-operator/config/default
+## install kuberay operator using nightly quickstart manifests
+kuberay:
+	kubectl create -k "github.com/ray-project/kuberay/manifests/cluster-scope-resources"
+	kubectl apply -k "github.com/ray-project/kuberay/manifests/base"
 
 ## create ray cluster
 cluster = mini
 service = raycluster-$(cluster)-head-svc
 raycluster:
-# create cluster
 	kubectl apply -f ray-operator/config/samples/ray-cluster.$(cluster).yaml
 
 ## install k3d ingress

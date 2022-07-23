@@ -63,30 +63,48 @@ make shell
 
 ## Kuberay
 
-The golang ray operator called [kuberay](https://github.com/ray-project/kuberay) is not yet shipped with ray but will supersede the stock python operator (see below).
+[kuberay](https://github.com/ray-project/kuberay) is the new goland operator than will supersede the stock python operator. See this [Slack discussion](https://ray-distributed.slack.com/archives/C02GFQ82JPM/p1657910298502319) of the differences.
 
-The following has been copied from the [e80e203 tree](https://github.com/ray-project/kuberay/tree/e80e203):
+Kuberay consists of:
 
-- [helm-chart/](helm-chart/) - we don't use these
-- [ray-operator/config/](ray-operator/config/) - kustomize templates, which seem more up to date than the helm charts
+- [helm-chart/](https://github.com/ray-project/kuberay/tree/master/helm-chart) - we don't use these
+- [ray-operator/config/](https://github.com/ray-project/kuberay/tree/master/ray-operator/config) - kustomize templates, which seem more up to date than the helm charts. Includes
+    - crd: the rayclusters, rayjobs, and rayservices CRDs
+    - default: crd, rbac, manager, and ray-system namespace 
+    - manager: kuberay operator deployment and serivce
+    - prometheus
+    - rbac: roles, service accounts etc.
+- [ray-operator/config/samples](ray-operator/config/samples): raycluster examples, copied into this repo from the [e80e203 tree](https://github.com/ray-project/kuberay/tree/e80e203)
+- [manifests/](https://github.com/ray-project/kuberay/tree/master/manifests) kutomize quickstart manifests for installing the default template + [apiserver](https://github.com/ray-project/kuberay/tree/master/apiserver)
 
-`make operator` uses the kustomize templates to create:
+`make kuberay` uses the kustomize manifests to create:
 
-- namespace/ray-system
-- customresourcedefinition.apiextensions.k8s.io/rayclusters.ray.io
-- customresourcedefinition.apiextensions.k8s.io/rayservices.ray.io
-- serviceaccount/kuberay-operator
-- role.rbac.authorization.k8s.io/kuberay-operator-leader-election
-- clusterrole.rbac.authorization.k8s.io/kuberay-operator
-- rolebinding.rbac.authorization.k8s.io/kuberay-operator-leader-election
-- clusterrolebinding.rbac.authorization.k8s.io/kuberay-operator
-- service/kuberay-operator
-- deployment.apps/kuberay-operator
+cluster scope resources:
+
+- namespace/ray-system created
+- customresourcedefinition.apiextensions.k8s.io/rayclusters.ray.io created
+- customresourcedefinition.apiextensions.k8s.io/rayjobs.ray.io created
+- customresourcedefinition.apiextensions.k8s.io/rayservices.ray.io created
+
+base resources:
+
+- serviceaccount/kuberay-apiserver created
+- serviceaccount/kuberay-operator created
+- role.rbac.authorization.k8s.io/kuberay-operator-leader-election created
+- clusterrole.rbac.authorization.k8s.io/kuberay-apiserver created
+- clusterrole.rbac.authorization.k8s.io/kuberay-operator created
+- rolebinding.rbac.authorization.k8s.io/kuberay-operator-leader-election created
+- clusterrolebinding.rbac.authorization.k8s.io/kuberay-apiserver created
+- clusterrolebinding.rbac.authorization.k8s.io/kuberay-operator created
+- service/kuberay-apiserver created
+- service/kuberay-operator created
+- deployment.apps/kuberay-apiserver created
+- deployment.apps/kuberay-operator created
 
 `make raycluster` creates the following in the default namespace:
 
 - raycluster-mini-head-svc service
-- ray head pod
+- ray head pod with 1 CPU and 2Gi memory
 
 `make delete` removes the ray cluster
 
