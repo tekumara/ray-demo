@@ -74,7 +74,7 @@ Kuberay consists of:
     - manager: kuberay operator deployment and serivce
     - prometheus
     - rbac: roles, service accounts etc.
-- [ray-operator/config/samples](ray-operator/config/samples): raycluster examples, copied into this repo from the [e80e203 tree](https://github.com/ray-project/kuberay/tree/e80e203)
+- [ray-operator/config/samples](ray-operator/config/samples): raycluster examples, copied into this repo from the [5934974 tree](https://github.com/ray-project/kuberay/tree/5934974/ray-operator/config/samples)
 - [manifests/](https://github.com/ray-project/kuberay/tree/master/manifests) kutomize quickstart manifests for installing the default template + [apiserver](https://github.com/ray-project/kuberay/tree/master/apiserver)
 
 `make kuberay` uses the kustomize manifests to create:
