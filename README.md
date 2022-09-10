@@ -27,7 +27,7 @@ Now set your kube context before running further commands.
 Install the ray cluster into kubes:
 
 - [kuberay](#kuberay) operator: `make kuberay raycluster` (recommended)
-- [stock](ray-stock-operator.md) python operator: `make ray-kube-install`
+- [stock](ray-stock-operator.md) python operator: `make ray-kube-install` (deprecated)
 
 ## Ingress
 
@@ -63,8 +63,6 @@ make shell
 
 ## Kuberay
 
-[kuberay](https://github.com/ray-project/kuberay) is the new goland operator than will supersede the stock python operator. See this [Slack discussion](https://ray-distributed.slack.com/archives/C02GFQ82JPM/p1657910298502319) of the differences.
-
 Kuberay consists of:
 
 - [helm-chart/](https://github.com/ray-project/kuberay/tree/master/helm-chart) - we don't use these
@@ -74,7 +72,7 @@ Kuberay consists of:
     - manager: kuberay operator deployment and serivce
     - prometheus
     - rbac: roles, service accounts etc.
-- [ray-operator/config/samples](ray-operator/config/samples): raycluster examples, copied into this repo from the [5934974 tree](https://github.com/ray-project/kuberay/tree/5934974/ray-operator/config/samples)
+- [ray-operator/config/samples](ray-operator/config/samples): raycluster examples, copied into this repo from the [af07dd2 tree](https://github.com/ray-project/kuberay/tree/af07dd2/ray-operator/config/samples)
 - [manifests/](https://github.com/ray-project/kuberay/tree/master/manifests) kutomize quickstart manifests for installing the default template + [apiserver](https://github.com/ray-project/kuberay/tree/master/apiserver)
 
 `make kuberay` uses the kustomize manifests to create:
@@ -104,7 +102,8 @@ base resources:
 `make raycluster` creates the following in the default namespace:
 
 - raycluster-mini-head-svc service
-- ray head pod with 1 CPU and 2Gi memory
+- ray head pod with limits of 1 CPU and 2Gi memory
+- ray worker pod with limits of 1 CPU and 512Mi memory
 
 `make delete` removes the ray cluster
 

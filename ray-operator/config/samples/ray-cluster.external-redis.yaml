@@ -1,3 +1,7 @@
+# Make sure to increase resource requests and limits before using this example in production.
+# For examples with more realistic resource configuration, see
+# ray-cluster.complete.large.yaml and
+# ray-cluster.autoscaler.large.yaml.
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -68,7 +72,7 @@ metadata:
   labels:
     controller-tools.k8s.io: "1.0"
   annotations:
-    ray.io/ha-enabled: "true" # enable Ray HA
+    ray.io/ft-enabled: "true" # enable Ray GCS FT
     ray.io/external-storage-namespace: "my-raycluster-storage-namespace"
   # An unique identifier for the head node and workers of this cluster.
   name: raycluster-external-redis
@@ -110,6 +114,12 @@ spec:
                 name: dashboard
               - containerPort: 10001
                 name: client
+            volumeMounts:
+              - mountPath: /tmp/ray
+                name: ray-logs
+        volumes:
+          - name: ray-logs
+            emptyDir: {}
   workerGroupSpecs:
     # the pod replicas in this group typed worker
     - replicas: 2
@@ -165,8 +175,8 @@ spec:
               # use volumeMounts.Optional.
               # Refer to https://kubernetes.io/docs/concepts/storage/volumes/
               volumeMounts:
-                - mountPath: /var/log
-                  name: log-volume
+                - mountPath: /tmp/ray
+                  name: ray-logs
               resources:
                 limits:
                   cpu: "1"
@@ -175,5 +185,5 @@ spec:
           # use volumes
           # Refer to https://kubernetes.io/docs/concepts/storage/volumes/
           volumes:
-            - name: log-volume
+            - name: ray-logs
               emptyDir: {}

@@ -9,7 +9,8 @@ ray.init("ray://127.0.0.1:10001")
 print('''This cluster consists of
     {} nodes in total
     {} CPU resources in total
-'''.format(len(ray.nodes()), ray.cluster_resources()['CPU']))
+    {} memory resources in total
+'''.format(len(ray.nodes()), ray.cluster_resources()['CPU'], ray.cluster_resources()['memory']))
 
 @ray.remote
 def f():

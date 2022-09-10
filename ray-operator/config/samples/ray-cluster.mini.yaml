@@ -1,3 +1,7 @@
+# This example config does not specify resource requests or limits.
+# For examples with more realistic resource configuration, see
+# ray-cluster.complete.large.yaml and
+# ray-cluster.autoscaler.large.yaml.
 apiVersion: ray.io/v1alpha1
 kind: RayCluster
 metadata:
@@ -42,7 +46,7 @@ spec:
       spec:
         containers:
         - name: ray-head
-          image: rayproject/ray:1.12.1-py39-cpu
+          image: rayproject/ray:1.12.1
           #image: rayproject/ray:nightly
           #image: bonsaidev.azurecr.io/bonsai/lazer-0-9-0-cpu:dev
           env:

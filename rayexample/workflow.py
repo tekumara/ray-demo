@@ -1,33 +1,33 @@
 # see https://docs.ray.io/en/latest/workflows/basics.html
 
-from ray import workflow
 from typing import List
+import ray
 
-@workflow.step
+# Define Ray remote functions.
+@ray.remote
 def read_data(num: int):
     return [i for i in range(num)]
 
-@workflow.step
+@ray.remote
 def preprocessing(data: List[float]) -> List[float]:
     return [d**2 for d in data]
 
-@workflow.step
+@ray.remote
 def aggregate(data: List[float]) -> float:
     return sum(data)
 
-# Initialize workflow storage.
-workflow.init()
+# Build the DAG:
+# data -> preprocessed_data -> aggregate
+data = read_data.bind(10)
+preprocessed_data = preprocessing.bind(data)
+output = aggregate.bind(preprocessed_data)
 
-# Setup the workflow.
-data = read_data.step(10)
-preprocessed_data = preprocessing.step(data)
-output = aggregate.step(preprocessed_data)
+from ray import workflow
 
 # Execute the workflow and print the result.
-print(output.run())
+print(workflow.run(output))
 
-# The workflow can also be executed asynchronously.
-# print(ray.get(output.run_async()))
-
-# List all workflows run in the cluster and their state
-print(workflow.list_all())
+# You can also run the workflow asynchronously and fetch the output via
+# 'ray.get'
+output_ref = workflow.run_async(output)
+print(ray.get(output_ref))

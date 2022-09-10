@@ -6,19 +6,20 @@ cluster:
 	@echo -e "\nTo use your cluster set:\n"
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
-## install ray using the stock ray operator
+## install ray using the stock ray operator (deprecated)
 ray-kube-install: service = example-cluster-ray-head
 ray-kube-install:
 	helm -n ray upgrade --install example-cluster deploy/charts/ray --create-namespace --wait
 	helm -n ray upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
 
-## install kuberay operator using nightly quickstart manifests
+## install kuberay operator using quickstart manifests
+export KUBERAY_VERSION=v0.3.0
 kuberay:
-	kubectl create -k "github.com/ray-project/kuberay/manifests/cluster-scope-resources"
-	kubectl apply -k "github.com/ray-project/kuberay/manifests/base"
+	kubectl create -k "github.com/ray-project/kuberay/manifests/cluster-scope-resources?ref=${KUBERAY_VERSION}&timeout=90s"
+	kubectl apply -k "github.com/ray-project/kuberay/manifests/base?ref=${KUBERAY_VERSION}&timeout=90s"
 
 ## create ray cluster
-cluster = mini
+cluster = complete
 service = raycluster-$(cluster)-head-svc
 raycluster:
 	kubectl apply -f ray-operator/config/samples/ray-cluster.$(cluster).yaml
