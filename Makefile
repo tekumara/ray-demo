@@ -6,12 +6,6 @@ cluster:
 	@echo -e "\nTo use your cluster set:\n"
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
-## install ray using the stock ray operator (deprecated)
-ray-kube-install: service = example-cluster-ray-head
-ray-kube-install:
-	helm -n ray upgrade --install example-cluster deploy/charts/ray --create-namespace --wait
-	helm -n ray upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
-
 ## install kuberay operator using quickstart manifests
 export KUBERAY_VERSION=v0.3.0
 kuberay:
