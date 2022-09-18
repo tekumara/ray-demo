@@ -6,7 +6,6 @@ Ray cluster with examples running on Kubernetes (k3d).
 
 - python 3
 - [k3d](https://github.com/rancher/k3d) to create a k3s kubes cluster (optional)
-- [grpcurl](https://github.com/fullstorydev/grpcurl) for network debugging (optional)
 
 Create virtualenv:
 

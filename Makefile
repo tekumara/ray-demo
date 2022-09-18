@@ -35,9 +35,9 @@ delete:
 	kubectl delete raycluster raycluster-$(cluster)
 
 ## ping server endpoint
-ping:
-	grpcurl -import-path ./protobuf/ -proto ray_client.proto -plaintext  -d '{ "type": "PING" }' localhost:10001 ray.rpc.RayletDriver/ClusterInfo
-
+ping: $(venv)
+	$(venv)/bin/python -m rayexample.ping
+	
 ## enable trafefik debug loglevel
 tdebug:
 	kubectl -n kube-system patch deployment traefik --type json -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/0", "value":"--log.level=DEBUG"}]'
