@@ -12,7 +12,7 @@ def ping(address: str) -> ray_client_pb2.ClusterInfoResponse:
 
 try:
     address = sys.argv[1]
-except IndexError as e:
+except IndexError:
     address = "localhost:10001"
 
 try:

@@ -66,11 +66,11 @@ Kuberay consists of:
 
 - [helm-chart/](https://github.com/ray-project/kuberay/tree/master/helm-chart) - we don't use these
 - [ray-operator/config/](https://github.com/ray-project/kuberay/tree/master/ray-operator/config) - kustomize templates, which seem more up to date than the helm charts. Includes
-    - crd: the rayclusters, rayjobs, and rayservices CRDs
-    - default: crd, rbac, manager, and ray-system namespace 
-    - manager: kuberay operator deployment and serivce
-    - prometheus
-    - rbac: roles, service accounts etc.
+  - crd: the rayclusters, rayjobs, and rayservices CRDs
+  - default: crd, rbac, manager, and ray-system namespace
+  - manager: kuberay operator deployment and serivce
+  - prometheus
+  - rbac: roles, service accounts etc.
 - [ray-operator/config/samples](ray-operator/config/samples): raycluster examples, copied into this repo from the [af07dd2 tree](https://github.com/ray-project/kuberay/tree/af07dd2/ray-operator/config/samples)
 - [manifests/](https://github.com/ray-project/kuberay/tree/master/manifests) kutomize quickstart manifests for installing the default template + [apiserver](https://github.com/ray-project/kuberay/tree/master/apiserver)
 
@@ -111,4 +111,3 @@ For more info see the [ray-operator readme](https://github.com/ray-project/kuber
 ## Limitations
 
 - [Pods aren't restarted when the RayCluster CRD image is updated](https://github.com/ray-project/kuberay/issues/234#issuecomment-1193074275)
-

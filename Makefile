@@ -11,7 +11,9 @@ cluster:
 ## install kuberay operator using quickstart manifests
 export KUBERAY_VERSION=v0.3.0
 kuberay:
-	kubectl get customresourcedefinition.apiextensions.k8s.io/rayclusters.ray.io || kubectl create -k "github.com/ray-project/kuberay/manifests/cluster-scope-resources?ref=${KUBERAY_VERSION}&timeout=90s"
+# install CRDs
+	kubectl apply --server-side -k "github.com/ray-project/kuberay/manifests/cluster-scope-resources?ref=${KUBERAY_VERSION}&timeout=90s"
+# install kuberay operator
 	kubectl apply -k "github.com/ray-project/kuberay/manifests/base?ref=${KUBERAY_VERSION}&timeout=90s"
 
 ## create ray cluster
