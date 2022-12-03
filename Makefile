@@ -4,7 +4,8 @@ include *.mk
 cluster:
 # add agents to have enough cluster capacity on an instance with only 2 CPU
 # use latest version of k3s with traefik 2.5 which supports networking.k8s.io/v1
-	k3d cluster create ray -i rancher/k3s:v1.23.6-k3s1 -p "10001:80@loadbalancer" --agents 2 --wait
+	k3d cluster create ray -i rancher/k3s:v1.23.6-k3s1 --agents 2 --wait \
+		-p 10001:10001@loadbalancer -p 8265:8265@loadbalancer -p 6379:6379@loadbalancer
 	@echo -e "\nTo use your cluster set:\n"
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
@@ -24,7 +25,7 @@ raycluster:
 
 ## install k3d ingress
 k3d-ingress:
-	helm upgrade --install example-cluster-ingress ingress --set serviceName=$(service) --wait
+	helm upgrade --install example-cluster-ingress ingress --set cluster=raycluster-$(cluster) --wait
 
 ## get shell on head pod
 shell:
@@ -32,7 +33,11 @@ shell:
 
 ## port forward the service
 forward:
-	kubectl port-forward svc/$(service) 10001:10001 8265:8265
+	kubectl port-forward svc/$(service) 10001:10001 8265:8265 6379:6379
+
+## status
+status: $(venv)
+	$(venv)/bin/ray status --address localhost:6379
 
 ## remove cluster
 delete:
