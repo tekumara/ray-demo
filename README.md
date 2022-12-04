@@ -60,7 +60,7 @@ make shell
 
 Kuberay consists of:
 
-- [helm-chart/](https://github.com/ray-project/kuberay/tree/master/helm-chart) - we don't use these
+- [helm-chart/](https://github.com/ray-project/kuberay/tree/master/helm-chart) - helm charts for the apiserver, operator and a ray-cluster (recommended)
 - [ray-operator/config/](https://github.com/ray-project/kuberay/tree/master/ray-operator/config) - kustomize templates, which seem more up to date than the helm charts. Includes
   - crd: the rayclusters, rayjobs, and rayservices CRDs
   - default: crd, rbac, manager, and ray-system namespace
@@ -70,39 +70,42 @@ Kuberay consists of:
 - [ray-operator/config/samples](ray-operator/config/samples): raycluster examples, copied into this repo from the [af07dd2 tree](https://github.com/ray-project/kuberay/tree/af07dd2/ray-operator/config/samples)
 - [manifests/](https://github.com/ray-project/kuberay/tree/master/manifests) kutomize quickstart manifests for installing the default template + [apiserver](https://github.com/ray-project/kuberay/tree/master/apiserver)
 
-`make kuberay` uses the kustomize manifests to create:
+`make kuberay` installs the [kuberay-operator helm chart](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator) which creates:
 
-cluster scope resources:
+[CRDs](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator/crds):
 
-- namespace/ray-system created
 - customresourcedefinition.apiextensions.k8s.io/rayclusters.ray.io created
 - customresourcedefinition.apiextensions.k8s.io/rayjobs.ray.io created
 - customresourcedefinition.apiextensions.k8s.io/rayservices.ray.io created
 
-base resources:
+The following [resources](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator/templates) in the default namespaces:
 
-- serviceaccount/kuberay-apiserver created
-- serviceaccount/kuberay-operator created
-- role.rbac.authorization.k8s.io/kuberay-operator-leader-election created
-- clusterrole.rbac.authorization.k8s.io/kuberay-apiserver created
-- clusterrole.rbac.authorization.k8s.io/kuberay-operator created
-- rolebinding.rbac.authorization.k8s.io/kuberay-operator-leader-election created
-- clusterrolebinding.rbac.authorization.k8s.io/kuberay-apiserver created
-- clusterrolebinding.rbac.authorization.k8s.io/kuberay-operator created
-- service/kuberay-apiserver created
-- service/kuberay-operator created
-- deployment.apps/kuberay-apiserver created
-- deployment.apps/kuberay-operator created
+- ServiceAccount kuberay-operator
+- ClusterRole rayjob-editor-role
+- ClusterRole rayjob-viewer-role
+- ClusterRole rayservice-editor-role
+- ClusterRole rayservice-viewer-role
+- ClusterRole kuberay-operator
+- ClusterRoleBinding kuberay-operator
+- Role kuberay-operator
+- RoleBinding kuberay-operator
+- Service kuberay-operator
+- Deployment kuberay-operator 
 
 `make raycluster` creates the following in the default namespace:
 
-- raycluster-mini-head-svc service
+- raycluster-kuberay-head-svc service
 - ray head pod with limits of 1 CPU and 2Gi memory
 - ray worker pod with limits of 1 CPU and 512Mi memory
 
 `make delete` removes the ray cluster
 
 For more info see the [ray-operator readme](https://github.com/ray-project/kuberay/tree/master/ray-operator).
+
+
+## Sizing
+
+See [[Feature][Docs][Discussion] Provider consistent guidance on resource Request and Limits #744](https://github.com/ray-project/kuberay/issues/744)
 
 ## Limitations
 

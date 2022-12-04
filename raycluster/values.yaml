@@ -1,0 +1,22 @@
+image:
+  tag: 2.0.0-py39-cpu
+
+head:
+  resources:
+    limits:
+      cpu: "1"
+      memory: 2"
+    requests:
+      cpu: "1"
+      memory: "2G"
+
+worker:
+  minReplicas: 1
+  maxReplicas: 10
+  resources:
+    limits:
+      cpu: "1"
+      memory: "2G"
+    requests:
+      cpu: "1"
+      memory: "2G"

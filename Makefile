@@ -1,5 +1,7 @@
 include *.mk
 
+.PHONY: raycluster
+
 ## create k3s cluster
 cluster:
 # add agents to have enough cluster capacity on an instance with only 2 CPU
@@ -10,20 +12,22 @@ cluster:
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
 ## install kuberay operator using quickstart manifests
-export KUBERAY_VERSION=v0.3.0
+kuberay_version = 0.4.0
+
 kuberay:
-# install CRDs
-	kubectl apply --server-side -k "github.com/ray-project/kuberay/manifests/cluster-scope-resources?ref=${KUBERAY_VERSION}&timeout=90s"
-# install kuberay operator
-	kubectl apply -k "github.com/ray-project/kuberay/manifests/base?ref=${KUBERAY_VERSION}&timeout=90s"
+# add helm repo and update to latest
+	helm repo add kuberay https://ray-project.github.io/kuberay-helm/
+	helm repo update kuberay
+# install CRDs & kuberay operator
+	helm upgrade --install kuberay-operator kuberay/kuberay-operator --version $(kuberay_version) --wait --debug > /dev/null
 
 ## create ray cluster
-cluster = complete
-service = raycluster-$(cluster)-head-svc
 raycluster:
-	kubectl apply -f ray-operator/config/samples/ray-cluster.$(cluster).yaml
+	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values raycluster/values.yaml --wait --debug > /dev/null
 
 ## install k3d ingress
+cluster = kuberay
+service = raycluster-$(cluster)-head-svc
 k3d-ingress:
 	helm upgrade --install example-cluster-ingress ingress --set cluster=raycluster-$(cluster) --wait
 
