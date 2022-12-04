@@ -96,7 +96,7 @@ The following [resources](https://github.com/ray-project/kuberay/tree/master/hel
 
 - raycluster-kuberay-head-svc service
 - ray head pod with limits of 1 CPU and 2Gi memory
-- ray worker pod with limits of 1 CPU and 512Mi memory
+- ray worker pod with limits of 1 CPU and 2Gi memory
 
 `make delete` removes the ray cluster
 

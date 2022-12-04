@@ -25,6 +25,10 @@ kuberay:
 raycluster:
 	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values raycluster/values.yaml --wait --debug > /dev/null
 
+## restart the ray cluster
+restart:
+	kubectl delete pod -lapp.kubernetes.io/name=kuberay --wait=false
+
 ## install k3d ingress
 cluster = kuberay
 service = raycluster-$(cluster)-head-svc

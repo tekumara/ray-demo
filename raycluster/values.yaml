@@ -2,10 +2,11 @@ image:
   tag: 2.0.0-py39-cpu
 
 head:
+  enableInTreeAutoscaling: true
   resources:
     limits:
       cpu: "1"
-      memory: 2"
+      memory: "2G"
     requests:
       cpu: "1"
       memory: "2G"
