@@ -78,7 +78,7 @@ Kuberay consists of:
 - customresourcedefinition.apiextensions.k8s.io/rayjobs.ray.io created
 - customresourcedefinition.apiextensions.k8s.io/rayservices.ray.io created
 
-The following [resources](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator/templates) in the default namespaces:
+The following [resources](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator/templates) in the default namespace:
 
 - ServiceAccount kuberay-operator
 - ClusterRole rayjob-editor-role

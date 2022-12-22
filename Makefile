@@ -56,6 +56,15 @@ delete:
 ping: $(venv)
 	$(venv)/bin/python -m rayexample.ping
 
+## head node logs
+logs: $(venv)
+	kubectl logs -lray.io/cluster=raycluster-kuberay -lray.io/node-type=head -c ray-head -f
+
+## auto-scaler logs
+logs-as: $(venv)
+	kubectl logs -lray.io/cluster=raycluster-kuberay -lray.io/node-type=head -c autoscaler -f
+
+
 ## enable trafefik debug loglevel
 tdebug:
 	kubectl -n kube-system patch deployment traefik --type json -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/0", "value":"--log.level=DEBUG"}]'
