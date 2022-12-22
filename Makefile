@@ -11,9 +11,9 @@ cluster:
 	@echo -e "\nTo use your cluster set:\n"
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
-## install kuberay operator using quickstart manifests
 kuberay_version = 0.4.0
 
+## install kuberay operator using quickstart manifests
 kuberay:
 # add helm repo and update to latest
 	helm repo add kuberay https://ray-project.github.io/kuberay-helm/
@@ -29,9 +29,10 @@ raycluster:
 restart:
 	kubectl delete pod -lapp.kubernetes.io/name=kuberay --wait=false
 
-## install k3d ingress
 cluster = kuberay
 service = raycluster-$(cluster)-head-svc
+
+## install k3d ingress
 k3d-ingress:
 	helm upgrade --install example-cluster-ingress ingress --set cluster=raycluster-$(cluster) --wait
 
