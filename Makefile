@@ -46,7 +46,7 @@ forward:
 
 ## status
 status: $(venv)
-	$(venv)/bin/ray status --address localhost:6379
+	$(venv)/bin/ray status --address localhost:6379 -v
 
 ## remove cluster
 delete:

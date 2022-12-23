@@ -13,7 +13,7 @@ print('''This cluster consists of
     {} memory resources in total
 '''.format(len([n for n in ray.nodes() if n["Alive"]]), ray.cluster_resources()['CPU'], ray.cluster_resources()['memory']))
 
-@ray.remote(num_cpus=2)
+@ray.remote
 def f():
     time.sleep(0.001)
     # Return IP address.

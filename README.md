@@ -102,6 +102,13 @@ The following [resources](https://github.com/ray-project/kuberay/tree/master/hel
 
 For more info see the [ray-operator readme](https://github.com/ray-project/kuberay/tree/master/ray-operator).
 
+## Autoscaler notes
+
+See [autoscaler.md](autoscaler.md)
+
+## References 
+
+- [RayCluster Configuration](https://docs.ray.io/en/latest/cluster/kubernetes/user-guides/config.html)
 
 ## Sizing
 
