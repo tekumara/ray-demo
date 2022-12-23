@@ -5,14 +5,15 @@ import time
 import ray
 
 ray.init("ray://127.0.0.1:10001")
+print(ray.__commit__)
 
 print('''This cluster consists of
     {} nodes in total
     {} CPU resources in total
     {} memory resources in total
-'''.format(len(ray.nodes()), ray.cluster_resources()['CPU'], ray.cluster_resources()['memory']))
+'''.format(len([n for n in ray.nodes() if n["Alive"]]), ray.cluster_resources()['CPU'], ray.cluster_resources()['memory']))
 
-@ray.remote
+@ray.remote(num_cpus=2)
 def f():
     time.sleep(0.001)
     # Return IP address.
