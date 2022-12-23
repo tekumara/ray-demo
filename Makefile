@@ -5,10 +5,10 @@ include *.mk
 ## create k3s cluster
 cluster:
 # add agents to have enough cluster capacity on an instance with only 2 CPU
-# use latest version of k3s with traefik 2.5 which supports networking.k8s.io/v1
-	k3d cluster create ray --agents 2 --wait \
+# increase eviction threshold to provide more disk space headroom as per
+# https://github.com/k3d-io/k3d/issues/133#issuecomment-1345263732
+	k3d cluster create ray --registry-create ray-registry:0.0.0.0:5550 --agents 2 --wait \
 		-p 10001:10001@loadbalancer -p 8265:8265@loadbalancer -p 6379:6379@loadbalancer \
-# more disk space headroom as per https://github.com/k3d-io/k3d/issues/133#issuecomment-1345263732
 		--k3s-arg '--kubelet-arg=eviction-hard=imagefs.available<1%,nodefs.available<1%@agent:*' \
 		--k3s-arg '--kubelet-arg=eviction-minimum-reclaim=imagefs.available=1%,nodefs.available=1%@agent:*' \
 		--k3s-arg '--kubelet-arg=eviction-hard=imagefs.available<1%,nodefs.available<1%@server:0' \
@@ -26,13 +26,19 @@ kuberay:
 # install CRDs & kuberay operator
 	helm upgrade --install kuberay-operator kuberay/kuberay-operator --version $(kuberay_version) --wait --debug > /dev/null
 
+## build and push docker image
+publish:
+	docker compose build app && docker compose push app
+
 ## create ray cluster
-raycluster:
+raycluster: publish
 	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values raycluster/values.yaml --wait --debug > /dev/null
+# restart needed because of https://github.com/ray-project/kuberay/issues/234
+	make restart
 
 ## restart the ray cluster
 restart:
-	kubectl delete pod -lapp.kubernetes.io/name=kuberay --wait=false
+	kubectl delete pod -lapp.kubernetes.io/name=kuberay --wait=false || true
 
 cluster = kuberay
 service = raycluster-$(cluster)-head-svc
@@ -73,7 +79,6 @@ logs: $(venv)
 logs-as: $(venv)
 	kubectl logs -lray.io/cluster=raycluster-kuberay -lray.io/node-type=head -c autoscaler -f
 
-
 ## enable trafefik debug loglevel
 tdebug:
 	kubectl -n kube-system patch deployment traefik --type json -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/0", "value":"--log.level=DEBUG"}]'
@@ -87,3 +92,9 @@ tdashboard:
 	@echo Forwarding traefik dashboard to http://localhost:9000/dashboard/
 	tpod=$$(kubectl get pod -n kube-system -l app.kubernetes.io/name=traefik -o custom-columns=:metadata.name --no-headers=true) && \
 		kubectl -n kube-system port-forward $$tpod 9000:9000
+
+## run tf_mnist on cluster
+tf_mnist: $(venv)
+	$(venv)/bin/python -m rayexample.tf_mnist --address ray://localhost:10001
+
+

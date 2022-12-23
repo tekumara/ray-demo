@@ -1,8 +1,8 @@
 # see https://github.com/ray-project/kuberay/tree/master/helm-chart/ray-cluster
 # and https://docs.ray.io/en/latest/cluster/kubernetes/user-guides/config.html
 image:
-  repository: rayproject/ray
-  tag: 2.2.0-py39-cpu
+  repository: ray-registry:5000/ray
+  tag: latest
   pullPolicy: IfNotPresent
 
 head:

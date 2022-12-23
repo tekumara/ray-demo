@@ -81,6 +81,8 @@ def train_tensorflow_mnist(num_workers=2, use_gpu=False, epochs=4):
     trainer = TensorflowTrainer(
         train_func,
         train_loop_config={"lr": 1e-3, "batch_size": 64, "epochs": epochs},
+        # in total this will request num_workers+1 CPUs (1 CPU is needed for the Trainer)
+        # using the default PACK placement strategy
         scaling_config=ScalingConfig(num_workers=num_workers, use_gpu=use_gpu),
     )
     results = trainer.fit()
