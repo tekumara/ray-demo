@@ -5,7 +5,7 @@ import time
 import ray
 
 ray.init("ray://127.0.0.1:10001")
-print(ray.__commit__)
+print(f"{ray.__version__} {ray.__commit__}"
 
 print('''This cluster consists of
     {} nodes in total

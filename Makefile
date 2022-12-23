@@ -6,8 +6,13 @@ include *.mk
 cluster:
 # add agents to have enough cluster capacity on an instance with only 2 CPU
 # use latest version of k3s with traefik 2.5 which supports networking.k8s.io/v1
-	k3d cluster create ray -i rancher/k3s:v1.23.6-k3s1 --agents 2 --wait \
-		-p 10001:10001@loadbalancer -p 8265:8265@loadbalancer -p 6379:6379@loadbalancer
+	k3d cluster create ray --agents 2 --wait \
+		-p 10001:10001@loadbalancer -p 8265:8265@loadbalancer -p 6379:6379@loadbalancer \
+# more disk space headroom as per https://github.com/k3d-io/k3d/issues/133#issuecomment-1345263732
+		--k3s-arg '--kubelet-arg=eviction-hard=imagefs.available<1%,nodefs.available<1%@agent:*' \
+		--k3s-arg '--kubelet-arg=eviction-minimum-reclaim=imagefs.available=1%,nodefs.available=1%@agent:*' \
+		--k3s-arg '--kubelet-arg=eviction-hard=imagefs.available<1%,nodefs.available<1%@server:0' \
+		--k3s-arg '--kubelet-arg=eviction-minimum-reclaim=imagefs.available=1%,nodefs.available=1%@server:0'
 	@echo -e "\nTo use your cluster set:\n"
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
@@ -47,6 +52,10 @@ forward:
 ## status
 status: $(venv)
 	$(venv)/bin/ray status --address localhost:6379 -v
+
+## print ray commit
+version: $(venv)
+	$(venv)/bin/python -c 'import ray; print(f"{ray.__version__} {ray.__commit__}")'
 
 ## remove cluster
 delete:
