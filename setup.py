@@ -9,5 +9,5 @@ setup(
     package_data={
         "": ["py.typed"],
     },
-    install_requires=["ray[data, tune]==2.2.0", "tqdm", "tensorflow~=2.11.0"],
+    install_requires=["ray[default, data, tune]==2.2.0", "tqdm", "tensorflow~=2.11.0"],
 )

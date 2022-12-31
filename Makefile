@@ -72,11 +72,15 @@ ping: $(venv)
 	$(venv)/bin/python -m rayexample.ping
 
 ## head node logs
-logs: $(venv)
+logs-head:
 	kubectl logs -lray.io/cluster=raycluster-kuberay -lray.io/node-type=head -c ray-head -f
 
+## worker node logs
+logs-worker:
+	kubectl logs -lray.io/group=workergroup -f
+
 ## auto-scaler logs
-logs-as: $(venv)
+logs-as:
 	kubectl logs -lray.io/cluster=raycluster-kuberay -lray.io/node-type=head -c autoscaler -f
 
 ## enable trafefik debug loglevel
@@ -97,4 +101,6 @@ tdashboard:
 tf_mnist: $(venv)
 	$(venv)/bin/python -m rayexample.tf_mnist --address ray://localhost:10001
 
-
+## list jobs
+job-list: $(venv)
+	$(venv)/bin/ray job list --address http://localhost:8265
