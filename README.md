@@ -117,5 +117,4 @@ See [[Feature][Docs][Discussion] Provider consistent guidance on resource Reques
 ## Known issues
 
 - [Pods aren't restarted when the RayCluster CRD image is updated](https://github.com/ray-project/kuberay/issues/234#issuecomment-1193074275)
-- [[Core] Infeasible requests leaked even if the submitting job is canceled](https://github.com/ray-project/ray/issues/29468)
 - [core - ray logs CLI doesn't work for kubernetes raycluster](https://github.com/ray-project/ray/issues/31381)

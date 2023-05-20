@@ -16,7 +16,7 @@ cluster:
 	@echo -e "\nTo use your cluster set:\n"
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
-kuberay_version = 0.4.0
+kuberay_version = 0.5.0
 
 ## install kuberay operator using quickstart manifests
 kuberay:
