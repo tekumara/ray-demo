@@ -32,7 +32,7 @@ publish:
 
 ## create ray cluster
 raycluster: publish
-	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values raycluster/values.yaml --wait --debug > /dev/null
+	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values infra/raycluster/values.yaml --wait --debug > /dev/null
 # restart needed because of https://github.com/ray-project/kuberay/issues/234
 	make restart
 
@@ -45,7 +45,7 @@ service = raycluster-$(cluster)-head-svc
 
 ## install k3d ingress
 k3d-ingress:
-	helm upgrade --install example-cluster-ingress ingress --set cluster=raycluster-$(cluster) --wait
+	helm upgrade --install example-cluster-ingress infra/ingress --set cluster=raycluster-$(cluster) --wait
 
 ## get shell on head pod
 shell:
