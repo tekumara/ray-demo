@@ -4,7 +4,7 @@ import time
 
 import ray
 
-ray.init("ray://127.0.0.1:10001")
+ray.init()
 print(f"{ray.__version__} {ray.__commit__}")
 
 print('''This cluster consists of

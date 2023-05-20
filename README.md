@@ -102,6 +102,15 @@ And the following [resources](https://github.com/ray-project/kuberay/tree/master
 
 For more info see the [ray-operator readme](https://github.com/ray-project/kuberay/tree/master/ray-operator).
 
+## Examples
+
+See examples in [raydemo](raydemo/).
+
+Most examples will start a local ray instance. To use the cluster instead:
+```
+export RAY_ADDRESS=ray://127.0.0.1:10001
+```
+
 ## Autoscaler notes
 
 See [autoscaler.md](autoscaler.md)
