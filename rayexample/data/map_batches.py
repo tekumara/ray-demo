@@ -1,4 +1,4 @@
-import ray
+import ray.data
 
 # Create a dataset and then create a pipeline from it.
 base = ray.data.range(1000000)

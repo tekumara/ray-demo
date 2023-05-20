@@ -1,4 +1,4 @@
-import ray
+import ray.data
 import numpy as np
 
 ds1 = ray.data.range(100).groupby(lambda x: x % 3).count().show()

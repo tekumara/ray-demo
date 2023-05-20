@@ -9,7 +9,7 @@ import os
 
 import numpy as np
 import tensorflow as tf
-from ray.air.callbacks.keras import Callback as TrainReportCallback
+from ray.air.integrations.keras import ReportCheckpointCallback as TrainReportCallback
 
 from ray.train.tensorflow import TensorflowTrainer
 from ray.air.config import ScalingConfig

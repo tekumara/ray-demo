@@ -1,6 +1,6 @@
 # create a dataset from arrow refs so data isn't pulled to the client
 
-import ray
+import ray.data
 import pyarrow as pa
 
 
