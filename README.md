@@ -67,7 +67,7 @@ Kuberay consists of:
   - manager: kuberay operator deployment and serivce
   - prometheus
   - rbac: roles, service accounts etc.
-- [ray-operator/config/samples](ray-operator/config/samples): raycluster examples, copied into this repo from the [af07dd2 tree](https://github.com/ray-project/kuberay/tree/af07dd2/ray-operator/config/samples)
+- [ray-operator/config/samples](ray-operator/config/samples): raycluster examples
 - [manifests/](https://github.com/ray-project/kuberay/tree/master/manifests) kutomize quickstart manifests for installing the default template + [apiserver](https://github.com/ray-project/kuberay/tree/master/apiserver)
 
 `make kuberay` installs the [kuberay-operator helm chart](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator) which creates:
@@ -78,7 +78,7 @@ Kuberay consists of:
 - customresourcedefinition.apiextensions.k8s.io/rayjobs.ray.io created
 - customresourcedefinition.apiextensions.k8s.io/rayservices.ray.io created
 
-The following [resources](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator/templates) in the default namespace:
+And the following [resources](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator/templates) in the default namespace:
 
 - ServiceAccount kuberay-operator
 - ClusterRole rayjob-editor-role
