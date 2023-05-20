@@ -47,7 +47,7 @@ make ping
 Run example application
 
 ```
-python rayexample/cluster_info.py
+python raydemo/cluster_info.py
 ```
 
 Run shell on head pod:
@@ -116,5 +116,6 @@ See [[Feature][Docs][Discussion] Provider consistent guidance on resource Reques
 
 ## Known issues
 
+- [[Data>] Dataset write_csv AttributeError: ‘Worker’ object has no attribute 'core_worker'](https://github.com/ray-project/ray/issues/35537)
 - [Pods aren't restarted when the RayCluster CRD image is updated](https://github.com/ray-project/kuberay/issues/234#issuecomment-1193074275)
 - [core - ray logs CLI doesn't work for kubernetes raycluster](https://github.com/ray-project/ray/issues/31381)

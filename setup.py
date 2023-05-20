@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="rayexample",
+    name="raydemo",
     version="0.0.0",
     description="ray examples",
     python_requires="~=3.9.11",

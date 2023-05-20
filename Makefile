@@ -69,7 +69,7 @@ delete:
 
 ## ping server endpoint
 ping: $(venv)
-	$(venv)/bin/python -m rayexample.ping
+	$(venv)/bin/python -m raydemo.ping
 
 ## head node logs
 logs-head:
@@ -99,7 +99,7 @@ tdashboard:
 
 ## run tf_mnist on cluster
 tf_mnist: $(venv)
-	$(venv)/bin/python -m rayexample.tf_mnist --address ray://localhost:10001
+	$(venv)/bin/python -m raydemo.tf_mnist --address ray://localhost:10001
 
 ## list jobs
 job-list: $(venv)
