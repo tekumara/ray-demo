@@ -4,7 +4,7 @@ setup(
     name="raydemo",
     version="0.0.0",
     description="ray examples",
-    python_requires="~=3.9.11",
+    python_requires="~=3.10.10",
     packages=find_packages(exclude=["tests"]),
     package_data={
         "": ["py.typed"],
