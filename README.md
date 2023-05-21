@@ -90,7 +90,7 @@ And the following [resources](https://github.com/ray-project/kuberay/tree/master
 - Role kuberay-operator
 - RoleBinding kuberay-operator
 - Service kuberay-operator
-- Deployment kuberay-operator 
+- Deployment kuberay-operator
 
 `make raycluster` creates the following in the default namespace:
 
@@ -107,6 +107,7 @@ For more info see the [ray-operator readme](https://github.com/ray-project/kuber
 See examples in [raydemo](raydemo/).
 
 Most examples will start a local ray instance. To use the cluster instead:
+
 ```
 export RAY_ADDRESS=ray://127.0.0.1:10001
 ```
@@ -115,7 +116,7 @@ export RAY_ADDRESS=ray://127.0.0.1:10001
 
 See [autoscaler.md](autoscaler.md)
 
-## References 
+## References
 
 - [RayCluster Configuration](https://docs.ray.io/en/latest/cluster/kubernetes/user-guides/config.html)
 
@@ -128,3 +129,4 @@ See [[Feature][Docs][Discussion] Provider consistent guidance on resource Reques
 - [[Data>] Dataset write_csv AttributeError: ‘Worker’ object has no attribute 'core_worker'](https://github.com/ray-project/ray/issues/35537)
 - [Pods aren't restarted when the RayCluster CRD image is updated](https://github.com/ray-project/kuberay/issues/234#issuecomment-1193074275)
 - [core - ray logs CLI doesn't work for kubernetes raycluster](https://github.com/ray-project/ray/issues/31381)
+- [[Data] error: Argument of type "(df: DataFrame) -> DataFrame" cannot be assigned to parameter](https://github.com/ray-project/ray/issues/35577)
