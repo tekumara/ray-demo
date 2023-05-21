@@ -1,5 +1,7 @@
+from typing import List
 import ray.data
 import numpy as np
+import pandas as pd
 
 ds1 = ray.data.range(100).groupby(lambda x: x % 3).count().show()
 
@@ -12,8 +14,23 @@ ray.data.from_items([(i % 3, i, i**2) for i in range(100)]).groupby(
     lambda x: x[0] % 3
 ).sum(lambda x: x[2]).show()
 
+def median(x: List[int]) -> List[np.float64]:
+    return [np.median(x)]
 
-# map groups https://docs.ray.io/en/master/data/package-ref.html#ray.data.grouped_dataset.GroupedDataset.map_groups
-ds3 = ray.data.range(100).groupby(lambda x: x % 3).map_groups(lambda x: [np.median(x)])
+# map groups https://docs.ray.io/en/latest/data/api/doc/ray.data.grouped_dataset.GroupedDataset.map_groups.html
+ds3 = ray.data.range(100).groupby(lambda x: x % 3).map_groups(median)
+
 print(ds3.show())
-print(ds3.stats())
+
+def sum(df: pd.DataFrame) -> pd.DataFrame:
+    key = df.iloc[0][0]
+    sum = df.sum()["B"] + df.sum()["C"]
+    return pd.DataFrame({"key": [key], "sum": [sum]})
+
+df = pd.DataFrame(
+    {"A": ["a", "a", "b"], "B": [1, 1, 3], "C": [4, 6, 5]}
+)
+ds = ray.data.from_pandas(df)
+grouped = ds.groupby("A")
+sumdf = grouped.map_groups(sum).to_pandas()
+print(sumdf)
