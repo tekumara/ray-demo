@@ -14,11 +14,12 @@ ray.data.from_items([(i % 3, i, i**2) for i in range(100)]).groupby(
     lambda x: x[0] % 3
 ).sum(lambda x: x[2]).show()
 
+# return type must be of type Block, here we use List
 def median(x: List[int]) -> List[np.float64]:
     return [np.median(x)]
 
 # map groups https://docs.ray.io/en/latest/data/api/doc/ray.data.grouped_dataset.GroupedDataset.map_groups.html
-ds3 = ray.data.range(100).groupby(lambda x: x % 3).map_groups(median)
+ds3 = ray.data.range(100).groupby(lambda x: x % 3).map_groups(median) # type: ignore see https://github.com/ray-project/ray/issues/35577
 
 print(ds3.show())
 
@@ -32,5 +33,5 @@ df = pd.DataFrame(
 )
 ds = ray.data.from_pandas(df)
 grouped = ds.groupby("A")
-sumdf = grouped.map_groups(sum).to_pandas()
+sumdf = grouped.map_groups(sum).to_pandas() # type: ignore see https://github.com/ray-project/ray/issues/35577
 print(sumdf)
