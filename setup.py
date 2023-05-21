@@ -9,5 +9,10 @@ setup(
     package_data={
         "": ["py.typed"],
     },
-    install_requires=["ray[default, data, tune]==2.4.0", "tqdm", "tensorflow~=2.11.0"],
+    install_requires=[
+        "ray[default, data, tune]==2.4.0",
+        "tqdm",
+        "tensorflow~=2.11.0; sys_platform != 'darwin' or platform_machine != 'arm64'",
+        "tensorflow-macos~=2.11.0; sys_platform == 'darwin' and platform_machine == 'arm64'"
+    ],
 )
