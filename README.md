@@ -6,6 +6,7 @@ Ray cluster with examples running on Kubernetes (k3d).
 
 - python 3
 - [k3d](https://github.com/rancher/k3d) to create a k3s kubes cluster (optional)
+- [helm](https://helm.sh/docs/intro/install/) to install the kuberay operator (optional)
 
 Create virtualenv:
 
