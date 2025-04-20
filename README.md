@@ -24,10 +24,11 @@ Now set your kube context before running further commands.
 
 ## Getting started
 
-Install the ray cluster into kubes:
+Install the ray operator (kuberay) and a ray cluster:
 
-- [kuberay](#kuberay) operator: `make kuberay raycluster` (recommended)
-- [stock](ray-stock-operator.md) python operator: `make ray-kube-install` (deprecated)
+```
+make kuberay raycluster
+```
 
 ## Ingress
 
@@ -65,10 +66,10 @@ Kuberay consists of:
 - [ray-operator/config/](https://github.com/ray-project/kuberay/tree/master/ray-operator/config) - kustomize templates, which seem more up to date than the helm charts. Includes
   - crd: the rayclusters, rayjobs, and rayservices CRDs
   - default: crd, rbac, manager, and ray-system namespace
-  - manager: kuberay operator deployment and serivce
+  - manager: kuberay operator deployment and service
   - prometheus
   - rbac: roles, service accounts etc.
-- [ray-operator/config/samples](ray-operator/config/samples): raycluster examples
+- [ray-operator/config/samples](https://github.com/ray-project/kuberay/tree/master/ray-operator/config/samples): raycluster examples
 - [manifests/](https://github.com/ray-project/kuberay/tree/master/manifests) kutomize quickstart manifests for installing the default template + [apiserver](https://github.com/ray-project/kuberay/tree/master/apiserver)
 
 `make kuberay` installs the [kuberay-operator helm chart](https://github.com/ray-project/kuberay/tree/master/helm-chart/kuberay-operator) which creates:
@@ -130,4 +131,4 @@ See [[Feature][Docs][Discussion] Provider consistent guidance on resource Reques
 - [[Data>] Dataset write_csv AttributeError: ‘Worker’ object has no attribute 'core_worker'](https://github.com/ray-project/ray/issues/35537)
 - [Pods aren't restarted when the RayCluster CRD image is updated](https://github.com/ray-project/kuberay/issues/234#issuecomment-1193074275)
 - [core - ray logs CLI doesn't work for kubernetes raycluster](https://github.com/ray-project/ray/issues/31381)
-- [[Data] error: Argument of type "(df: DataFrame) -> DataFrame" cannot be assigned to parameter](https://github.com/ray-project/ray/issues/35577)
+- [[core] single docker image that can run on multiple platforms](https://github.com/ray-project/ray/issues/52475)

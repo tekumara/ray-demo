@@ -1,3 +1,5 @@
-FROM rayproject/ray:2.4.0-py310-cpu
+ARG BASE_IMAGE=dummy
 
-RUN pip install --no-cache-dir tensorflow~=2.11.0
+FROM ${BASE_IMAGE}
+
+RUN pip install --no-cache-dir tensorflow~=2.19.0

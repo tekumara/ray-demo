@@ -1,15 +1,14 @@
 # Autoscaler
 
-
-## Resources 
+## Resources
 
 > Ray resources are logical and don’t need to have 1-to-1 mapping with physical resources. They are mainly used for admission control during scheduling.
-
+> ..
 > Resource requirements of tasks or actors do NOT impose limits on actual physical resource usage. For example, Ray doesn’t prevent a num_cpus=1 task from launching multiple threads and using multiple physical CPUs. It’s your responsibility to make sure tasks or actors use no more resources than specified via resource requirements.
 
 Resource requirements include CPU, GPU, memory, and custom hardware. They can be fractional.
 
-> Ray nodes start with pre-defiend CPU, GPU, and memory resources. The quantities of these resources on each node are set to the physical quantities auto detected by Ray.
+> Ray nodes start with pre-defined CPU, GPU, and memory resources. The quantities of these resources on each node are set to the physical quantities auto detected by Ray.
 
 See [Resources](https://docs.ray.io/en/latest/ray-core/scheduling/resources.html)
 
@@ -19,7 +18,6 @@ See [Resources](https://docs.ray.io/en/latest/ray-core/scheduling/resources.html
 
 They can be used to limit the amount of concurrency see [Pattern: Using resources to limit the number of concurrently running tasks](https://docs.ray.io/en/latest/ray-core/patterns/limit-running-tasks.html)
 
- 
 ## Autoscaler
 
 > The Ray autoscaler uses the logical resources expressed in task and actor annotations. For instance, if each Ray container spec in your RayCluster CR indicates a limit of 10 CPUs, and you submit twenty tasks annotated with @ray.remote(num_cpus=5), 10 Ray pods will be created to satisfy the 100-CPU resource demand.

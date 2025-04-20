@@ -1,6 +1,16 @@
 services:
-  app:
+  app-x86_64:
     image: localhost:5550/ray:latest
     build:
+      args:
+        - BASE_IMAGE=rayproject/ray:2.44.1-py311-cpu
+      context: .
+      dockerfile: Dockerfile
+
+  app-arm64:
+    image: localhost:5550/ray:latest
+    build:
+      args:
+        - BASE_IMAGE=rayproject/ray:2.44.1-py311-cpu-aarch64
       context: .
       dockerfile: Dockerfile

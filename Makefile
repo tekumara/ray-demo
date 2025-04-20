@@ -16,7 +16,7 @@ cluster:
 	@echo -e "\nTo use your cluster set:\n"
 	@echo "export KUBECONFIG=$$(k3d kubeconfig write ray)"
 
-kuberay_version = 0.5.0
+kuberay_version = 1.3.2
 
 ## install kuberay operator using quickstart manifests
 kuberay:
@@ -27,8 +27,9 @@ kuberay:
 	helm upgrade --install kuberay-operator kuberay/kuberay-operator --version $(kuberay_version) --wait --debug > /dev/null
 
 ## build and push docker image
+push: service=app-$(shell uname -m)
 push:
-	docker compose build app && docker compose push app
+	docker compose build $(service) && docker compose push $(service)
 
 ## create ray cluster
 raycluster: push
@@ -56,20 +57,24 @@ forward:
 	kubectl port-forward svc/$(service) 10001:10001 8265:8265 6379:6379
 
 ## status
-status: $(venv)
-	$(venv)/bin/ray status --address localhost:6379 -v
+status:
+	uv run ray status --address localhost:6379 -v
 
 ## print ray commit
-version: $(venv)
-	$(venv)/bin/python -c 'import ray; print(f"{ray.__version__} {ray.__commit__}")'
+version:
+	uv run python -c 'import ray; print(f"{ray.__version__} {ray.__commit__}")'
 
 ## remove cluster
 delete:
 	kubectl delete raycluster raycluster-$(cluster)
 
 ## ping server endpoint
-ping: $(venv)
-	$(venv)/bin/python -m raydemo.ping
+ping:
+	uv run python -m raydemo.ping
+
+## cluster info
+info:
+	uv run python -m raydemo.cluster_info
 
 ## head node logs
 logs-head:

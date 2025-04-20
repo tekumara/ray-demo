@@ -4,12 +4,12 @@ name = "raydemo"
 description = "ray examples"
 version = "0.0.0"
 readme = "README.md"
-requires-python = "~=3.10.10"
+# to match the cluster docker image
+requires-python = "==3.11.11"
 dependencies = [
-    "ray[default, data, tune]==2.4.0",
+    "ray[default, data, tune]==2.44.1",
     "tqdm",
-    "tensorflow~=2.11.0; sys_platform != 'darwin' or platform_machine != 'arm64'",
-    "tensorflow-macos~=2.11.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "tensorflow~=2.19.0",
 ]
 
 [dependency-groups]
