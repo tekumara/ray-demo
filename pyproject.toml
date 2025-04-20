@@ -1,0 +1,90 @@
+
+[project]
+name = "raydemo"
+description = "ray examples"
+version = "0.0.0"
+readme = "README.md"
+requires-python = "~=3.10.10"
+dependencies = [
+    "ray[default, data, tune]==2.4.0",
+    "tqdm",
+    "tensorflow~=2.11.0; sys_platform != 'darwin' or platform_machine != 'arm64'",
+    "tensorflow-macos~=2.11.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
+
+[dependency-groups]
+dev = [
+    "build~=1.0",
+    "pre-commit~=4.0",
+    "pyright==1.1.399",
+    "pytest~=8.0",
+    "ruff~=0.11.2",
+    "twine~=6.1",
+]
+
+[build-system]
+requires = ["setuptools~=78.1"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests*", "build*"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+exclude = ["**/__pycache__", "**/.*", "build"]
+strictListInference = true
+strictDictionaryInference = true
+strictParameterNoneValue = true
+reportTypedDictNotRequiredAccess = false
+reportIncompatibleVariableOverride = true
+reportIncompatibleMethodOverride = true
+reportMatchNotExhaustive = true
+reportUnnecessaryTypeIgnoreComment = true
+
+[tool.ruff]
+line-length = 120
+# first-party imports for sorting
+src = ["."]
+fix = true
+show-fixes = true
+
+[tool.ruff.lint]
+# rules to enable/ignore
+select = [
+    "F",    # pyflakes
+    "E",    # pycodestyle
+    "W",    # pycodestyle
+    "ANN",  # type annotations
+    "N",    # pep8-naming
+    "B",    # bugbear
+    "I",    # isort
+    "ARG",  # flake8-unused-arguments
+    "SLF",  # flake8-self
+    "UP",   # pyupgrade
+    "PERF", # perflint
+    "RUF",  # ruff-specific
+    "SIM",  # flake8-simplify
+    "S113", # request-without-timeout
+    "ASYNC", # flake8-async
+]
+
+ignore = [
+    # allow no return type from dunder methods
+    "ANN204",
+    # allow == True because pandas dataframes overload equality
+    "E712",
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-wrap-aliases = true
+
+[tool.ruff.lint.per-file-ignores]
+# test functions don't need return types
+"tests/*" = ["ANN201", "ANN202"]
+
+[tool.ruff.lint.flake8-annotations]
+# allow *args: Any, **kwargs: Any
+allow-star-arg-any = true

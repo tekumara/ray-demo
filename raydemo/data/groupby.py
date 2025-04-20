@@ -33,5 +33,5 @@ df = pd.DataFrame(
 )
 ds = ray.data.from_pandas(df)
 grouped = ds.groupby("A")
-sumdf = grouped.map_groups(sum).to_pandas() # type: ignore see https://github.com/ray-project/ray/issues/35577
+sumdf = grouped.map_groups(sum).to_pandas()
 print(sumdf)

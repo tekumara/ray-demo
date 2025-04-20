@@ -27,11 +27,11 @@ kuberay:
 	helm upgrade --install kuberay-operator kuberay/kuberay-operator --version $(kuberay_version) --wait --debug > /dev/null
 
 ## build and push docker image
-publish:
+push:
 	docker compose build app && docker compose push app
 
 ## create ray cluster
-raycluster: publish
+raycluster: push
 	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values infra/raycluster/values.yaml --wait --debug > /dev/null
 # restart needed because of https://github.com/ray-project/kuberay/issues/234
 	make restart
