@@ -103,9 +103,13 @@ tdashboard:
 		kubectl -n kube-system port-forward $$tpod 9000:9000
 
 ## run tf_mnist on cluster
-tf_mnist: $(venv)
-	$(venv)/bin/python -m raydemo.tf_mnist --address ray://localhost:10001
+tf_mnist:
+	uv run python -m raydemo.tf_mnist --address ray://localhost:10001
 
 ## list jobs
-job-list: $(venv)
-	$(venv)/bin/ray job list --address http://localhost:8265
+job-list:
+	uv run ray job list --address http://localhost:8265
+
+## serve example
+serve:
+	uv run serve run raydemo.serve:language_classifier
