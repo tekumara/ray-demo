@@ -112,4 +112,8 @@ job-list:
 
 ## serve example
 serve:
-	uv run serve run raydemo.serve:language_classifier
+	uv run serve run raydemo.serve.hello:language_classifier
+
+## serve chain example
+serve-chain:
+	uv run python -m raydemo.serve.chain
