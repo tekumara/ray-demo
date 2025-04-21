@@ -7,9 +7,14 @@ readme = "README.md"
 # to match the cluster docker image
 requires-python = "==3.11.11"
 dependencies = [
-    "ray[default, data, tune]==2.44.1",
+    "ray[default, data, tune, serve]==2.44.1",
     "tqdm",
     "tensorflow~=2.19.0",
+    # because transformers 4.51.3 doesn't support keras 3
+    "tf-keras",
+    # needed for transformers
+    "torch",
+    "transformers~=4.51.3",
 ]
 
 [dependency-groups]

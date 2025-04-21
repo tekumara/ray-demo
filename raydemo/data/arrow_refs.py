@@ -12,7 +12,7 @@ class DataGenerator:
 
 data_generator = DataGenerator.remote()
 refs = [
-    data_generator.generate_data.remote() # pyright: ignore[reportAttributeAccessIssue] see https://github.com/ray-project/ray/issues/50410
+    data_generator.generate_data.remote()  # pyright: ignore[reportAttributeAccessIssue] see https://github.com/ray-project/ray/issues/50410
     for _ in range(5)
 ]
 
