@@ -143,3 +143,4 @@ Type hint issues:
 - [[core] Generate \*.pyi stubs for protobufs](https://github.com/ray-project/ray/issues/52482)
 - [[serve] Cannot access attribute "bind" for class "function"](https://github.com/ray-project/ray/issues/52483)
 - [[serve] error: "NoReturn" is not awaitable](https://github.com/ray-project/ray/issues/52491)
+- [[serve] Cannot access attribute "result" for class "DeploymentResponseGenerator" Attribute "result" is unknown](https://github.com/ray-project/ray/issues/52493)

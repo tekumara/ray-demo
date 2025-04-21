@@ -41,6 +41,9 @@ class FrenchResponder:
         return f"Bonjour {name}"
 
 
-spanish_responder = SpanishResponder.bind()  # pyright: ignore[reportFunctionMemberAccess] https://github.com/ray-project/ray/issues/52483
-french_responder = FrenchResponder.bind()  # pyright: ignore[reportFunctionMemberAccess] https://github.com/ray-project/ray/issues/52483
+# pyright: reportFunctionMemberAccess=false
+# see https://github.com/ray-project/ray/issues/52483
+
+spanish_responder = SpanishResponder.bind()
+french_responder = FrenchResponder.bind()
 language_classifier = LanguageClassifier.bind(spanish_responder, french_responder)
