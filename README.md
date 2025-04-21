@@ -129,6 +129,15 @@ See [[Feature][Docs][Discussion] Provider consistent guidance on resource Reques
 ## Known issues
 
 - [[Data>] Dataset write_csv AttributeError: ‘Worker’ object has no attribute 'core_worker'](https://github.com/ray-project/ray/issues/35537)
-- [Pods aren't restarted when the RayCluster CRD image is updated](https://github.com/ray-project/kuberay/issues/234#issuecomment-1193074275)
 - [core - ray logs CLI doesn't work for kubernetes raycluster](https://github.com/ray-project/ray/issues/31381)
 - [[core] single docker image that can run on multiple platforms](https://github.com/ray-project/ray/issues/52475)
+
+Kuberay:
+
+- [[Bug] Worker pods shouldn't terminate with status Error](https://github.com/ray-project/kuberay/issues/3442)
+- [Pods aren't restarted when the RayCluster CRD image is updated](https://github.com/ray-project/kuberay/issues/234#issuecomment-1193074275)
+
+Type hint issues:
+
+- [[core] ray.remote Decorator's Return Type Cannot Be Determined by Type Checkers](https://github.com/ray-project/ray/issues/50410)
+- [[core] Generate \*.pyi stubs for protobufs](https://github.com/ray-project/ray/issues/52482)
