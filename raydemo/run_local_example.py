@@ -1,9 +1,11 @@
 # sourced from https://github.com/ray-project/ray/blob/9af8f11/doc/kubernetes/example_scripts/run_local_example.py
 
-from collections import Counter
 import sys
 import time
+from collections import Counter
+
 import ray
+
 """ Run this script locally to execute a Ray program on your Ray cluster on
 Kubernetes.
 
@@ -17,37 +19,35 @@ LOCAL_PORT = 10001
 
 
 @ray.remote
-def gethostname(x):
+def gethostname(x: tuple[str, ...]) -> tuple[str, ...]:
     import platform
     import time
+
     time.sleep(0.01)
-    return x + (platform.node(), )
+    return (*x, platform.node())
 
 
-def wait_for_nodes(expected):
+def wait_for_nodes(expected: int) -> None:
     # Wait for all nodes to join the cluster.
     while True:
         resources = ray.cluster_resources()
         node_keys = [key for key in resources if "node" in key]
         num_nodes = sum(resources[node_key] for node_key in node_keys)
         if num_nodes < expected:
-            print("{} nodes have joined so far, waiting for {} more.".format(
-                num_nodes, expected - num_nodes))
+            print(f"{num_nodes} nodes have joined so far, waiting for {expected - num_nodes} more.")
             sys.stdout.flush()
             time.sleep(1)
         else:
             break
 
 
-def main():
+def main() -> None:
     wait_for_nodes(2)
 
     # Check that objects can be transferred from each node to each other node.
     for i in range(10):
-        print("Iteration {}".format(i))
-        results = [
-            gethostname.remote(gethostname.remote(())) for _ in range(100)
-        ]
+        print(f"Iteration {i}")
+        results = [gethostname.remote(gethostname.remote(())) for _ in range(100)]
         print(Counter(ray.get(results)))
         sys.stdout.flush()
 

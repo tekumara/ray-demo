@@ -1,18 +1,21 @@
 # see https://docs.ray.io/en/latest/workflows/metadata.html#notes
 
-from ray import workflow
-import time
-import ray
 import os
+import time
+
+import ray
+from ray import workflow
 
 workflow_id = "test"
 flagfile = f"/tmp/{workflow_id}"
 
+
 @ray.remote
-def simple():
-    open(flagfile, 'a').close()  # touch a file here
+def simple() -> int:
+    open(flagfile, "a").close()  # touch a file here
     time.sleep(10000)
     return 0
+
 
 workflow.run_async(simple.bind(), workflow_id=workflow_id)
 

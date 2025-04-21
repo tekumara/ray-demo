@@ -14,5 +14,5 @@ pipe = pipe.map_batches(lambda batch: [v * 2 for v in batch])
 print(pipe)
 
 num_rows = 0
-for row in pipe.iter_rows():
-    num_rows += 1
+for _ in pipe.iter_rows():
+    num_rows += 1  # noqa: SIM113

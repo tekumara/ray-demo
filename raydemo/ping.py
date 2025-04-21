@@ -1,8 +1,10 @@
+import sys
+
 import grpc
 import grpc._channel
 import ray.core.generated.ray_client_pb2 as ray_client_pb2
 import ray.core.generated.ray_client_pb2_grpc as ray_client_pb2_grpc
-import sys
+
 
 def ping(address: str) -> ray_client_pb2.ClusterInfoResponse:
     with grpc.insecure_channel(address) as channel:
@@ -17,6 +19,6 @@ except IndexError:
 
 try:
     print(ping(address))
-except grpc._channel._InactiveRpcError as e:
+except grpc._channel._InactiveRpcError as e:  # noqa: SLF001
     print(f"{e.code()} {e.details()}")
     exit(42)

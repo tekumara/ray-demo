@@ -1,17 +1,20 @@
-import numpy as np
 import os
+import time
+
+import numpy as np
 import ray
 import ray.exceptions
-import time
 
 ray.init(ignore_reinit_error=True)
 
+
 @ray.remote(max_retries=1)
-def potentially_fail(failure_probability):
+def potentially_fail(failure_probability: float) -> int:
     time.sleep(0.2)
     if np.random.random() < failure_probability:
         os._exit(0)
     return 0
+
 
 for _ in range(3):
     try:
@@ -20,6 +23,6 @@ for _ in range(3):
         # below will return normally. Otherwise, it will raise an
         # exception.
         ray.get(potentially_fail.remote(0.8))
-        print('SUCCESS')
+        print("SUCCESS")
     except ray.exceptions.WorkerCrashedError:
-        print('FAILURE')
+        print("FAILURE")
