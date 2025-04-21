@@ -114,6 +114,13 @@ job-list:
 serve:
 	uv run serve run raydemo.serve.hello:language_classifier
 
+## serve ping
+serve-ping:
+	curl -X POST http://localhost:8000 \
+		-H "Content-Type: application/json" \
+		-d '{"language": "spanish", "name": "world"}'
+
+
 ## serve chain example
 serve-chain:
 	uv run python -m raydemo.serve.chain

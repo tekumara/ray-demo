@@ -10,6 +10,7 @@ dependencies = [
     "ray[default, data, tune, serve]==2.44.1",
     "tqdm",
     "tensorflow~=2.19.0",
+    "debugpy"
 ]
 
 [dependency-groups]

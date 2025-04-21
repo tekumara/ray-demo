@@ -142,3 +142,4 @@ Type hint issues:
 - [[core] ray.remote Decorator's Return Type Cannot Be Determined by Type Checkers](https://github.com/ray-project/ray/issues/50410)
 - [[core] Generate \*.pyi stubs for protobufs](https://github.com/ray-project/ray/issues/52482)
 - [[serve] Cannot access attribute "bind" for class "function"](https://github.com/ray-project/ray/issues/52483)
+- [[serve] error: "NoReturn" is not awaitable](https://github.com/ray-project/ray/issues/52491)
