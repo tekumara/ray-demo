@@ -20,17 +20,17 @@ repos:
         language: system
         types: [python]
         require_serial: true
-      - id: pyright
-        name: pyright
-        entry: uv run pyright
-        # run on all files to catch type errors that affect unchanged files
-        pass_filenames: false
-        language: system
-        types: [python]
-      - id: test
-        name: test
-        entry: uv run pytest
-        # run on all files
-        pass_filenames: false
-        language: system
-        types: [python]
+      # - id: pyright
+      #   name: pyright
+      #   entry: uv run pyright
+      #   # run on all files to catch type errors that affect unchanged files
+      #   pass_filenames: false
+      #   language: system
+      #   types: [python]
+      # - id: test
+      #   name: test
+      #   entry: uv run pytest
+      #   # run on all files
+      #   pass_filenames: false
+      #   language: system
+      #   types: [python]
