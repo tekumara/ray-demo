@@ -10,7 +10,9 @@ dependencies = [
     "ray[default, data, tune, serve]==2.44.1",
     "tqdm",
     "tensorflow~=2.19.0",
-    "debugpy"
+    # can't use pydantic 2.11 yet see https://github.com/ray-project/ray/issues/52525
+    "pydantic~=2.10.0",
+    "debugpy",
 ]
 
 [dependency-groups]
