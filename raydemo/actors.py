@@ -1,6 +1,6 @@
 import random
 import string
-import time
+from collections.abc import Generator
 
 import ray
 from pydantic import BaseModel
@@ -31,11 +31,19 @@ def main() -> None:
     print("created actors")
 
     input_keys = [[f"input-{i}-{j}" for j in range(10)] for i in range(10)]
-    time.sleep(3)
-    results = pool.map_unordered(lambda a, v: a.predict.remote(v), input_keys)
+    results: Generator[list[Prediction], None, None] = pool.map_unordered(lambda a, v: a.predict.remote(v), input_keys)
 
     print("wait on results")
     for r in results:
+        print(r)
+
+
+def run_sequence() -> None:
+    p = Predictor.remote()
+    input_keys = [[f"input-{i}-{j}" for j in range(10)] for i in range(10)]
+    for k in input_keys:
+        print(k)
+        r = ray.get(p.predict.remote(k))  # type: ignore
         print(r)
 
 
