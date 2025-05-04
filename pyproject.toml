@@ -7,7 +7,7 @@ readme = "README.md"
 # to match the cluster docker image
 requires-python = "==3.11.11"
 dependencies = [
-    "ray[default, data, tune, serve]==2.44.1",
+    "ray[default, data, tune, serve]==2.45.0",
     "tqdm",
     "tensorflow~=2.19.0",
     # can't use pydantic 2.11 yet see https://github.com/ray-project/ray/issues/52525
