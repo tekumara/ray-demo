@@ -3,6 +3,7 @@ import string
 from collections.abc import Generator
 
 import ray
+import ray.actor
 from pydantic import BaseModel
 from ray.util import ActorPool
 
@@ -23,27 +24,46 @@ class Predictor:
         return [Prediction(key=k, value=random.choice(string.ascii_letters)) for k in input_keys]
 
 
+@ray.remote
+class Consumer:
+    def __init__(self, predictors: list[ray.actor.ActorHandle]):
+        print("__init__")
+        self.predictors = predictors
+
+    def consume(self, input_keys: list[str]) -> list[Prediction]:
+        print(f"consume {input_keys}")
+
+        # here we can fetch other data using the input keys
+
+        # randomly select a predictor
+        predictor = random.choice(self.predictors)
+        print(f"using predictor {predictor}")
+
+        # call the predictor
+        ref = predictor.predict.remote(input_keys)
+        # this will block until the result is ready
+        ref = ray.get(ref)  # type: ignore see https://github.com/ray-project/ray/issues/52772
+
+        return ref
+
+
 def main() -> None:
     # create actors
-    print("main")
-    predictors = [Predictor.remote() for _ in range(10)]
-    pool = ActorPool(predictors)
-    print("created actors")
+    print("creating actors")
+
+    num_predictors = 3
+    predictors = [Predictor.remote() for _ in range(num_predictors)]
+
+    num_consumers = 10
+    consumers = [Consumer.remote(predictors) for _ in range(num_consumers)]  # type: ignore see https://github.com/ray-project/ray/issues/52771
+
+    pool = ActorPool(consumers)
 
     input_keys = [[f"input-{i}-{j}" for j in range(10)] for i in range(10)]
-    results: Generator[list[Prediction], None, None] = pool.map_unordered(lambda a, v: a.predict.remote(v), input_keys)
+    results: Generator[list[Prediction], None, None] = pool.map_unordered(lambda a, v: a.consume.remote(v), input_keys)
 
     print("wait on results")
     for r in results:
-        print(r)
-
-
-def run_sequence() -> None:
-    p = Predictor.remote()
-    input_keys = [[f"input-{i}-{j}" for j in range(10)] for i in range(10)]
-    for k in input_keys:
-        print(k)
-        r = ray.get(p.predict.remote(k))  # type: ignore
         print(r)
 
 

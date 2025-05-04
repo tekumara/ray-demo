@@ -144,3 +144,5 @@ Type hint issues:
 - [[serve] Cannot access attribute "bind" for class "function"](https://github.com/ray-project/ray/issues/52483)
 - [[serve] error: "NoReturn" is not awaitable](https://github.com/ray-project/ray/issues/52491)
 - [[serve] Cannot access attribute "result" for class "DeploymentResponseGenerator" Attribute "result" is unknown](https://github.com/ray-project/ray/issues/52493)
+- [[core] actor constructor type hint should be ActorHandle](https://github.com/ray-project/ray/issues/52771)
+- [[core] ActorHandle remote() return type hint should be ObjectRef not Unknown](https://github.com/ray-project/ray/issues/52772)

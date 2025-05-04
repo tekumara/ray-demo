@@ -8,12 +8,14 @@ ds = ray.data.read_csv("s3://anonymous@air-example-data/iris.csv")
 # Preview the first record
 ds.show(limit=1)
 
+
 # Define a transformation to compute a "petal area" attribute
 def transform_batch(batch: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
     vec_a = batch["petal length (cm)"]
     vec_b = batch["petal width (cm)"]
     batch["petal area (cm^2)"] = vec_a * vec_b
     return batch
+
 
 # Apply the transformation to our dataset
 transformed_ds = ds.map_batches(transform_batch)
