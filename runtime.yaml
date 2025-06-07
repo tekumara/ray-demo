@@ -1,0 +1,9 @@
+working_dir: .
+excludes:
+  - ".mypy_cache"
+  - ".ruff_cache"
+  - ".venv"
+  - ".vscode"
+  - ".infra"
+  - "*.egg-info"
+  - "prometheus*"

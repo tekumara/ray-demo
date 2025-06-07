@@ -124,3 +124,11 @@ serve-ping:
 ## serve chain example
 serve-chain:
 	uv run python -m raydemo.serve.chain
+
+## start ray
+start:
+	uv run ray start --head
+
+## job submit example (run make start first)
+job-submit:
+	uv run ray job submit --runtime-env runtime.yaml -- python raydemo/script.py
