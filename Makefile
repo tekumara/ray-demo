@@ -41,7 +41,7 @@ raycluster: push
 ## create ray cluster without custom image
 raycluster-std:
 	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values infra/raycluster/values.yaml \
-		--wait --debug --set image.repository=rayproject/ray --set image.tag=2.45.0 > /dev/null
+		--wait --debug --set image.repository=rayproject/ray --set image.tag=2.45.0-py311 > /dev/null
 # restart needed because of https://github.com/ray-project/kuberay/issues/234
 	make restart
 
@@ -142,5 +142,6 @@ start:
 	uv run ray start --head
 
 ## job submit example (run make start first)
+job-submit: export RAY_ADDRESS=ray://localhost:10001
 job-submit:
 	uv run ray job submit --runtime-env runtime.yaml -- python raydemo/script.py
