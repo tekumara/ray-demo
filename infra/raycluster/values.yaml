@@ -6,8 +6,17 @@ image:
   pullPolicy: IfNotPresent
 
 head:
-  # If `enableInTreeAutoscaling` is true, the Autoscaler sidecar will be added to the Ray head pod.
+  # enable autoscaling
+  # see https://docs.ray.io/en/latest/cluster/kubernetes/user-guides/configuring-autoscaling.html#kuberay-autoscaling-configurations
   enableInTreeAutoscaling: true
+  containerEnv:
+    # enable autoscaler v2
+    # see https://docs.ray.io/en/latest/cluster/kubernetes/user-guides/configuring-autoscaling.html#autoscaler-v2-with-kuberay
+    - name: RAY_enable_autoscaler_v2
+      value: "1"
+  rayStartParams:
+    # Setting "num-cpus: 0" to avoid any Ray actors or tasks being scheduled on the Ray head Pod.
+    num-cpus: "0"
   resources:
     limits:
       cpu: "1"
@@ -17,7 +26,9 @@ head:
       memory: "2G"
 
 worker:
-  minReplicas: 1
+  # number of replicas to start with before autoscaler takes over
+  replicas: 0
+  minReplicas: 0
   maxReplicas: 10
   resources:
     limits:

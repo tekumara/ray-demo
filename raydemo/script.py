@@ -8,6 +8,8 @@ def hello_world() -> str:
     return "hello world"
 
 
+# Running on the head node.
 # Automatically connect to the running Ray cluster.
 ray.init()
+print("let's begin!")
 print(ray.get(hello_world.remote()))
