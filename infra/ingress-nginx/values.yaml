@@ -1,0 +1,6 @@
+ingress:
+  name: raycluster-kuberay-head
+  serviceName: raycluster-kuberay-head-svc
+  path: /
+  hosts:
+    - raycluster.localhost

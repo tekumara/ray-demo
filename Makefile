@@ -53,8 +53,12 @@ cluster = kuberay
 service = raycluster-$(cluster)-head-svc
 
 ## install k3d ingress
-k3d-ingress:
-	helm upgrade --install example-cluster-ingress infra/ingress --set cluster=raycluster-$(cluster) --wait
+ingress-k3d:
+	helm upgrade --install rayingress infra/ingress-k3d --set cluster=raycluster-$(cluster) --wait
+
+## install nginx ingress with cert-manager
+ingress-nginx:
+	helm upgrade --install rayingress infra/ingress-nginx --wait
 
 ## get shell on head pod
 shell:

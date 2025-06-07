@@ -32,11 +32,16 @@ make kuberay raycluster
 
 ## Ingress
 
-For k3d, run `make k3d-ingress`, else run `make forward`:
+For k3d, run `make ingress-k3d`:
 
 - The Ray client server will be exposed on localhost port 10001.
 - The Ray dashboard can be accessed on [http://localhost:8265/](http://localhost:8265)
 - The Ray GCS server will be exposed on localhost port 6379.
+
+Alternatives:
+
+- no ingress: `make forward`
+- nginx + cert-manager (dashboard only): `make ingress-nginx`
 
 ## Usage
 

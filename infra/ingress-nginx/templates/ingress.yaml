@@ -1,0 +1,32 @@
+{{- $ingressPath := .Values.ingress.path -}}
+{{- $serviceName := .Values.ingress.serviceName -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.name }}
+  labels:
+    app.kubernetes.io/name: {{ .Values.ingress.name }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+  {{- range .Values.ingress.hosts }}
+  - hosts:
+    - {{ .| quote }}
+    secretName: {{ regexReplaceAll "[\\.-]+$" (. | trunc 50) "" | quote }}
+  {{- end }}
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: {{ $ingressPath }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $serviceName }}
+                port:
+                  number: 8265
+  {{- end }}
