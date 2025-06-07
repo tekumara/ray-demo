@@ -18,7 +18,7 @@ See [Resources](https://docs.ray.io/en/latest/ray-core/scheduling/resources.html
 
 They can be used to limit the amount of concurrency see [Pattern: Using resources to limit the number of concurrently running tasks](https://docs.ray.io/en/latest/ray-core/patterns/limit-running-tasks.html)
 
-## Autoscaler
+## Scaling
 
 > The Ray autoscaler uses the logical resources expressed in task and actor annotations. For instance, if each Ray container spec in your RayCluster CR indicates a limit of 10 CPUs, and you submit twenty tasks annotated with @ray.remote(num_cpus=5), 10 Ray pods will be created to satisfy the 100-CPU resource demand.
 

@@ -6,6 +6,7 @@ image:
   pullPolicy: IfNotPresent
 
 head:
+  # If `enableInTreeAutoscaling` is true, the Autoscaler sidecar will be added to the Ray head pod.
   enableInTreeAutoscaling: true
   resources:
     limits:

@@ -1,0 +1,5 @@
+sync:
+  toHost:
+    ingresses:
+      # see https://www.vcluster.com/docs/vcluster/configure/vcluster-yaml/sync/to-host/networking/ingresses
+      enabled: true

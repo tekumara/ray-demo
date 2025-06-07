@@ -33,7 +33,15 @@ push:
 
 ## create ray cluster
 raycluster: push
-	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values infra/raycluster/values.yaml --wait --debug > /dev/null
+	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values infra/raycluster/values.yaml \
+		--wait --debug > /dev/null
+# restart needed because of https://github.com/ray-project/kuberay/issues/234
+	make restart
+
+## create ray cluster without custom image
+raycluster-std:
+	helm upgrade --install raycluster kuberay/ray-cluster --version $(kuberay_version) --values infra/raycluster/values.yaml \
+		--wait --debug --set image.repository=rayproject/ray --set image.tag=2.45.0 > /dev/null
 # restart needed because of https://github.com/ray-project/kuberay/issues/234
 	make restart
 
