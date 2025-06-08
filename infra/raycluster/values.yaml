@@ -20,10 +20,10 @@ head:
   resources:
     limits:
       cpu: "1"
-      memory: "2G"
+      memory: "3G"
     requests:
       cpu: "1"
-      memory: "2G"
+      memory: "3G"
 
 worker:
   # number of replicas to start with before autoscaler takes over
