@@ -14,6 +14,10 @@ head:
     # see https://docs.ray.io/en/latest/cluster/kubernetes/user-guides/configuring-autoscaling.html#autoscaler-v2-with-kuberay
     - name: RAY_enable_autoscaler_v2
       value: "1"
+    #  cause tasks with infeasible requests to raise an error instead of hanging
+    #  This feature will be turned on by default in a future release of Ray.
+    - name: RAY_enable_infeasible_task_early_exit
+      value: "1"
   rayStartParams:
     # Setting "num-cpus: 0" to avoid any Ray actors or tasks being scheduled on the Ray head Pod.
     num-cpus: "0"
